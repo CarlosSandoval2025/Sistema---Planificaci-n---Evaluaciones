@@ -18,7 +18,6 @@ class EvaluacionAcademica{
     getResumen(): string{
         return this.titulo + "\n" + "Tipo: " + this.tipo + "\n" + "Fecha: " + this.fecha.toLocaleDateString + "\n" +
         "Duracion: " + this.duracionMin + "min\n" + "Estado: " + this.estado;
-
     }
 
 }
