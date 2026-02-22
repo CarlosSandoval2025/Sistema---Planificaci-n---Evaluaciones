@@ -1,14 +1,20 @@
-var Curso = /** @class */ (function () {
-    function Curso(id, nombre, docente, creditos) {
+import { Docente } from "./Docente.js";
+import { EvaluacionAcademica } from "./EvaluacionAcademica.js";
+class Curso {
+    id;
+    nombre;
+    docente;
+    creditos;
+    evaluaciones;
+    constructor(id, nombre, docente, creditos) {
         this.id = id;
         this.nombre = nombre;
         this.docente = docente;
         this.creditos = creditos;
+        this.evaluaciones = [];
     }
-    Curso.prototype.getResumen = function () {
-        return this.nombre + " - Docente: " + this.docente + " - Creditos: " + this.creditos;
-    };
-    return Curso;
-}());
-var myCurso = new Curso(1, "Programacion", "Carlos", 4);
-console.log(myCurso.getResumen());
+    getResumen() {
+        return this.nombre + " - Docente: " + this.docente.getResumen() + " - Creditos: " + this.creditos;
+    }
+}
+//# sourceMappingURL=Curso.js.map
