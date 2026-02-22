@@ -1,18 +1,25 @@
-class EvaluacionAcademica{
+import { Horario } from "./Horario.js";
+import { TipoEvaluacion} from "./TipoEvaluacion.js";
+import { EstadoEvaluacion } from "./EstadoEvaluacion.js";
+
+
+export class EvaluacionAcademica{
     private id: number;
     private titulo: string;
-    private tipo: string;
+    private tipo: TipoEvaluacion;
     private fecha: Date;
     private duracionMin: number;
-    private estado: string;
+    private estado: EstadoEvaluacion;
+    private horario: Horario;
 
-    constructor(id: number, titulo: string, tipo: string, fecha: Date, duracionMin: number, estado: string){
+    constructor(id: number, titulo: string, tipo: TipoEvaluacion, fecha: Date, duracionMin: number, estado: EstadoEvaluacion, horario: Horario){
         this.id = id;
         this.titulo = titulo;
         this.tipo = tipo;
         this.fecha = fecha;
         this.duracionMin = duracionMin;
         this.estado = estado;
+        this.horario = horario;
     } 
 
     getResumen(): string{

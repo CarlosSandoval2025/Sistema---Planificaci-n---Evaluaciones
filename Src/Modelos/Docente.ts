@@ -1,4 +1,4 @@
-class Docente{
+export class Docente{
     private id: number;
     private nombre: string;
     private correo: string;

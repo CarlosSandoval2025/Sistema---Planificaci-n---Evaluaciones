@@ -1,4 +1,4 @@
-enum TipoEvaluacion{
+export enum TipoEvaluacion{
     EXAMEN = "Examen",
     PRACTICA = "Practica",
     PROYECTO = "Proyecto",

@@ -1,17 +1,22 @@
-class Curso{
+import { Docente } from "./Docente.js";
+import { EvaluacionAcademica } from "./EvaluacionAcademica.js"
+
+class Curso {
     private id: number;
     private nombre: string;
-    private docente: string;
+    private docente: Docente;
     private creditos: number;
+    private evaluaciones: EvaluacionAcademica [];
 
-    constructor(id: number, nombre: string, docente: string, creditos: number){
+    constructor(id: number, nombre: string, docente: Docente, creditos: number){
         this.id = id;
         this.nombre = nombre;
         this.docente = docente;
         this.creditos = creditos;
+        this.evaluaciones = [];
     }
 
     getResumen(): string{
-        return this.nombre + " - Docente: " + this.docente + " - Creditos: " + this.creditos;
+        return this.nombre + " - Docente: " + this.docente.getResumen() + " - Creditos: " + this.creditos;
     }
 }

@@ -1,4 +1,4 @@
-enum EstadoEvaluacion{
+export enum EstadoEvaluacion{
     PROGRAMADA = "Programada",
     REPROGRAMADA = "Reprogramada",
     REALIZADA = "Realizada",

@@ -1,4 +1,4 @@
-class Horario{
+export class Horario{
     private id: number;
     private dia: string;
     private horaInicio: string;
