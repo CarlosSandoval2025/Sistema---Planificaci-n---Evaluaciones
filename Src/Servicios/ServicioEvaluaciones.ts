@@ -33,4 +33,13 @@ export class ServicioEvaluaciones {
         evaluacion.reprogramar(nuevaFecha);
         console.log("Evaluacion reprogramada correctamente,");
     }
+
+    verificarAlerta(): void {
+        if(this.evaluaciones.length === 0){
+            console.log("No hay evaluaciones registradas.");
+            return;
+        }
+
+        this.evaluaciones.forEach(e => {console.log("\nEvaluacion: ", (e as any).titulo);e.verificarAlerta();});
+    }
 }

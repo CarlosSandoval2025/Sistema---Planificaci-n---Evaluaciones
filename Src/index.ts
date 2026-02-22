@@ -76,13 +76,16 @@ function pruebaServicio(): void {
     servicio.listarEvaluaciones();
 
     console.log("\n--- REPROGRAMANDO ---");
-    servicio.reprogramarEvaluacion(1, new Date(2026,2,15));
+    servicio.reprogramarEvaluacion(1, new Date());
 
     console.log("\n--- LISTADO DESPUES DE REPROGRAMAR ---");
     servicio.listarEvaluaciones();
 
     console.log("\n--- HISTORIAL ---");
     evaluacion.verHistorial();
+
+    console.log("\n--- ALERTAS ---");
+    servicio.verificarAlerta();
 }
 
 pruebaServicio();

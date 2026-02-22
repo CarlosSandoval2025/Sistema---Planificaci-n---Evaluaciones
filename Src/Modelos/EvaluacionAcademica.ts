@@ -50,5 +50,20 @@ export class EvaluacionAcademica{
         this.historialCambios.forEach((cambio, i) => {
             console.log((i + 1) + ". " + cambio);});
     }
+
+    verificarAlerta(): void{
+        const hoy = new Date();
+        const diferentciaMs = this.fecha.getTime() - hoy.getTime();
+        const diferentciaDias = Math.ceil(diferentciaMs / (1000 * 60 * 60 * 24));
+
+        if(diferentciaDias < 0){
+            console.log("La evaluacion ya vencio.");
+        }
+        else{
+            if(diferentciaDias <= 7) {
+                console.log(`La evaluacion esta proxima. Falta ${diferentciaDias} dias.`);
+            }
+        }
+    }
 }
 
