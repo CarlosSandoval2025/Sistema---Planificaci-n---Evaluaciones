@@ -21,4 +21,16 @@ export class ServicioEvaluaciones {
             (evaluacion as any).estado = nuevoEstado;
         }
     }
+
+    reprogramarEvaluacion(id: number, nuevaFecha: Date): void {
+        const evaluacion = this.evaluaciones.find(e => (e as any).id === id);
+
+        if(!evaluacion) {
+            console.log("Evaluacion no encontrada.");
+            return;
+        }
+
+        evaluacion.reprogramar(nuevaFecha);
+        console.log("Evaluacion reprogramada correctamente,");
+    }
 }
