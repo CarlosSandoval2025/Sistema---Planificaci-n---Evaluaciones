@@ -34,7 +34,7 @@ export class ServicioEvaluaciones {
         console.log("Evaluacion reprogramada correctamente,");
     }
 
-    verificarAlerta(): void {
+    verificarAlertas(): void {
         if(this.evaluaciones.length === 0){
             console.log("No hay evaluaciones registradas.");
             return;
@@ -42,4 +42,32 @@ export class ServicioEvaluaciones {
 
         this.evaluaciones.forEach(e => {console.log("\nEvaluacion: ", (e as any).titulo);e.verificarAlerta();});
     }
+
+    verificarConflictos(): void {
+    for (let i = 0; i < this.evaluaciones.length; i++) {
+        for (let j = i + 1; j < this.evaluaciones.length; j++) {
+
+            const ev1 = this.evaluaciones[i]!;
+            const ev2 = this.evaluaciones[j]!;
+
+            const mismaFecha =
+                ev1.getFecha().toDateString() === ev2.getFecha().toDateString();
+
+            const mismoDia =
+                ev1.getHorario().getDia() === ev2.getHorario().getDia();
+
+            const mismaHora =
+                ev1.getHorario().getHoraInicio() === ev2.getHorario().getHoraInicio() &&
+                ev1.getHorario().getHoraFin() === ev2.getHorario().getHoraFin();
+
+            const mismaAula =
+                ev1.getHorario().getAula() === ev2.getHorario().getAula();
+
+            if (mismaFecha && mismoDia && mismaHora && mismaAula) {
+                console.log("\n CONFLICTO DETECTADO:");
+                console.log(`- ${ev1.getTitulo()} y ${ev2.getTitulo()}`);
+            }
+        }
+    }
+}
 }

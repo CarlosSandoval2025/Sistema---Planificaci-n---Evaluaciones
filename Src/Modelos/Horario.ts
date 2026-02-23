@@ -19,4 +19,20 @@ export class Horario{
         "Fin: " + this.horaFin + "\n" +
         "Aula: " + this.aula + "\n" ;
     }
+
+    getDia(): string {
+        return this.dia;
+    }
+
+    getHoraInicio(): string {
+        return this.horaInicio;
+    }
+
+    getHoraFin(): string {
+        return this.horaFin;
+    }
+
+    getAula(): string {
+        return this.aula;
+    }
 }

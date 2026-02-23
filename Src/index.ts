@@ -70,7 +70,18 @@ function pruebaServicio(): void {
         horario
     );
 
+    const evaluacion2 = new EvaluacionAcademica(
+    2,
+    "Examen Final",
+    TipoEvaluacion.EXAMEN,
+    new Date(),
+    120,
+    EstadoEvaluacion.PROGRAMADA,
+    horario
+    );
+
     servicio.agregarEvaluacion(evaluacion);
+    servicio.agregarEvaluacion(evaluacion2);
 
     console.log("\n--- LISTADO INICIAL ---");
     servicio.listarEvaluaciones();
@@ -85,7 +96,10 @@ function pruebaServicio(): void {
     evaluacion.verHistorial();
 
     console.log("\n--- ALERTAS ---");
-    servicio.verificarAlerta();
+    servicio.verificarAlertas();
+
+    console.log("\n--- CONFLICTOS ---");
+    servicio.verificarConflictos();
 }
 
 pruebaServicio();

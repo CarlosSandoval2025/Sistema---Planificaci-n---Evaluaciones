@@ -65,5 +65,17 @@ export class EvaluacionAcademica{
             }
         }
     }
+
+    getFecha(): Date {
+        return this.fecha;
+    }
+
+    getHorario(): Horario {
+        return this.horario;
+    }
+
+    getTitulo(): string {
+        return this.titulo;
+    }
 }
 
