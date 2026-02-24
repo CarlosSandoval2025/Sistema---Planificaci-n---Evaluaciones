@@ -53,7 +53,7 @@ function menuPrincipal(): void {
     } while (opcion !== "0");
 }
 
-menuPrincipal();
+//menuPrincipal();
 
 // ===== PRUEBA TEMPORAL =====
 function pruebaServicio(): void {
@@ -103,17 +103,17 @@ function pruebaServicio(): void {
     servicio.verificarConflictos();
 }
 
-pruebaServicio();
+//pruebaServicio();
 
 function pruebaHorarios(): void {
 
     const servicio = new ServicioHorarios();
 
     const h1 = new Horario(1, "Lunes", "08:00", "10:00", "A101");
-    const h2 = new Horario(2, "Martes", "10:00", "12:00", "B202");
+    const h2 = new Horario(2, "Lunes", "08:00", "10:00", "A101"); // mismo aula y hora
 
     servicio.agregarHorario(h1);
-    servicio.agregarHorario(h2);
+    servicio.agregarHorario(h2); // este debe fallar
 
     servicio.listarHorarios();
 }
