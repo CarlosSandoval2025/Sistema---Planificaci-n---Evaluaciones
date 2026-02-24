@@ -63,7 +63,7 @@ function pruebaServicio(): void {
     const servicio = new ServicioEvaluaciones();
 
     const docente1 = new Docente(
-        1,
+        "100000",
         "Juan Perez",
         "juan@uni.edu",
         "Matematica"
@@ -132,7 +132,7 @@ function pruebaHorarios(): void {
     const servicio = new ServicioHorarios();
 
     const docente1 = new Docente(
-        1,
+        "200000",
         "Juan Perez",
         "juan@uni.edu",
         "Matematica"

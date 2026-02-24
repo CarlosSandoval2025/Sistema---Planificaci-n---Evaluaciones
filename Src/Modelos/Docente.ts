@@ -1,13 +1,10 @@
-export class Docente{
-    private id: number;
-    private nombre: string;
-    private correo: string;
+import { Persona } from "./Persona.js";
+
+export class Docente extends Persona{
     private especialidad: string;
 
-    constructor(id: number, nombre: string, correo: string, especialidad: string){
-        this.id = id; 
-        this.nombre = nombre;
-        this.correo = correo;
+    constructor(dni: string, nombre: string, correo: string, especialidad: string){
+        super(dni, nombre, correo);
         this.especialidad = especialidad;
     }
 

@@ -57,7 +57,7 @@ export class ServicioHorarios {
             const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
             const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
             const mismoDocente =
-                h.getDocente().getResumen() === nuevo.getDocente().getResumen();
+                h.getDocente().getDni() === nuevo.getDocente().getDni();
 
             if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoDocente) {
                 return true;
@@ -76,7 +76,7 @@ export class ServicioHorarios {
             const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
 
             const mismoCurso =
-                h.getCurso().getResumen() === nuevo.getCurso().getResumen();
+                h.getCurso().getId() === nuevo.getCurso().getId();
 
             if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoCurso) {
                 console.log("Conflicto detectado: el curso ya tiene clase en ese horario.");

@@ -19,4 +19,8 @@ export class Curso {
     getResumen(): string{
         return this.nombre + " - Docente: " + this.docente.getResumen() + " - Creditos: " + this.creditos;
     }
+
+    getId(): number {
+        return this.id;
+    }
 }

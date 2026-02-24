@@ -9,44 +9,54 @@ export class ServicioEvaluaciones {
     }
 
     listarEvaluaciones(): void {
+        if (this.evaluaciones.length === 0) {
+            console.log("No hay evaluaciones registradas.");
+            return;
+        }
+
         this.evaluaciones.forEach((ev, index) => {
-            console.log("\nEvaluacion #" + (index + 1));
+            console.log("\nEvaluación #" + (index + 1));
             console.log(ev.getResumen());
         });
     }
 
     cambiarEstado(id: number, nuevoEstado: EstadoEvaluacion): void {
-        const evaluacion = this.evaluaciones.find(e => (e as any).id === id);
+        const evaluacion = this.evaluaciones.find(e => e.getId() === id);
         if (evaluacion) {
-            (evaluacion as any).estado = nuevoEstado;
+            evaluacion.setEstado(nuevoEstado);
+            console.log(`Estado de "${evaluacion.getTitulo()}" actualizado a ${nuevoEstado}.`);
+        } else {
+            console.log("Evaluación no encontrada.");
         }
     }
 
     reprogramarEvaluacion(id: number, nuevaFecha: Date): void {
-        const evaluacion = this.evaluaciones.find(e => (e as any).id === id);
+        const evaluacion = this.evaluaciones.find(e => e.getId() === id);
 
-        if(!evaluacion) {
-            console.log("Evaluacion no encontrada.");
+        if (!evaluacion) {
+            console.log("Evaluación no encontrada.");
             return;
         }
 
         evaluacion.reprogramar(nuevaFecha);
-        console.log("Evaluacion reprogramada correctamente,");
+        console.log(`Evaluación "${evaluacion.getTitulo()}" reprogramada correctamente.`);
     }
 
     verificarAlertas(): void {
-        if(this.evaluaciones.length === 0){
+        if (this.evaluaciones.length === 0) {
             console.log("No hay evaluaciones registradas.");
             return;
         }
 
-        this.evaluaciones.forEach(e => {console.log("\nEvaluacion: ", (e as any).titulo);e.verificarAlerta();});
+        this.evaluaciones.forEach(e => {
+            console.log("\nEvaluación: " + e.getTitulo());
+            e.verificarAlerta();
+        });
     }
 
     verificarConflictos(): void {
         for (let i = 0; i < this.evaluaciones.length; i++) {
             for (let j = i + 1; j < this.evaluaciones.length; j++) {
-
                 const ev1 = this.evaluaciones[i]!;
                 const ev2 = this.evaluaciones[j]!;
 
@@ -64,7 +74,7 @@ export class ServicioEvaluaciones {
                     ev1.getHorario().getAula() === ev2.getHorario().getAula();
 
                 if (mismaFecha && mismoDia && mismaHora && mismaAula) {
-                    console.log("\n CONFLICTO DETECTADO:");
+                    console.log("\nCONFLICTO DETECTADO:");
                     console.log(`- ${ev1.getTitulo()} y ${ev2.getTitulo()}`);
                 }
             }

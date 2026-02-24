@@ -24,46 +24,12 @@ export class EvaluacionAcademica{
         this.historialCambios = [];
     } 
 
-    getResumen(): string{
-        return this.titulo + "\n" + "Tipo: " + this.tipo + "\n" + "Fecha: " + this.fecha.toLocaleDateString() + "\n" +
-        "Duracion: " + this.duracionMin + "min\n" + "Estado: " + this.estado;
+    getId(): number {
+        return this.id;
     }
 
-    reprogramar (nuevaFecha: Date): void {
-        const fechaAnterior = this.fecha.toLocaleDateString();
-    const fechaNueva = nuevaFecha.toLocaleDateString();
-
-    this.fecha = nuevaFecha;
-    this.estado = EstadoEvaluacion.REPROGRAMADA;
-
-    this.historialCambios.push(
-        `Reprogramada de ${fechaAnterior} a ${fechaNueva}`);
-    }
-
-    verHistorial(): void {
-        if(this.historialCambios.length === 0){
-            console.log("No hay cambios registrados.");
-            return;
-        }
-
-        console.log("Historial de cambios: ");
-        this.historialCambios.forEach((cambio, i) => {
-            console.log((i + 1) + ". " + cambio);});
-    }
-
-    verificarAlerta(): void{
-        const hoy = new Date();
-        const diferentciaMs = this.fecha.getTime() - hoy.getTime();
-        const diferentciaDias = Math.ceil(diferentciaMs / (1000 * 60 * 60 * 24));
-
-        if(diferentciaDias < 0){
-            console.log("La evaluacion ya vencio.");
-        }
-        else{
-            if(diferentciaDias <= 7) {
-                console.log(`La evaluacion esta proxima. Falta ${diferentciaDias} dias.`);
-            }
-        }
+    getTitulo(): string {
+        return this.titulo;
     }
 
     getFecha(): Date {
@@ -74,8 +40,62 @@ export class EvaluacionAcademica{
         return this.horario;
     }
 
-    getTitulo(): string {
-        return this.titulo;
+    getEstado(): EstadoEvaluacion {
+        return this.estado;
+    }
+
+    setEstado(nuevoEstado: EstadoEvaluacion): void {
+        this.estado = nuevoEstado;
+    }
+
+    getResumen(): string {
+        return (
+            this.titulo +
+            "\nTipo: " +
+            this.tipo +
+            "\nFecha: " +
+            this.fecha.toLocaleDateString() +
+            "\nDuración: " +
+            this.duracionMin +
+            "min\nEstado: " +
+            this.estado
+        );
+    }
+
+    reprogramar(nuevaFecha: Date): void {
+        const fechaAnterior = this.fecha.toLocaleDateString();
+        const fechaNueva = nuevaFecha.toLocaleDateString();
+
+        this.fecha = nuevaFecha;
+        this.estado = EstadoEvaluacion.REPROGRAMADA;
+
+        this.historialCambios.push(
+            `Reprogramada de ${fechaAnterior} a ${fechaNueva}`
+        );
+    }
+
+    verHistorial(): void {
+        if (this.historialCambios.length === 0) {
+            console.log("No hay cambios registrados.");
+            return;
+        }
+
+        console.log("Historial de cambios:");
+        this.historialCambios.forEach((cambio, i) => {
+            console.log((i + 1) + ". " + cambio);
+        });
+    }
+
+    verificarAlerta(): void {
+        const hoy = new Date();
+        const diferenciaMs = this.fecha.getTime() - hoy.getTime();
+        const diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
+
+        if (diferenciaDias < 0) {
+            console.log("La evaluación ya venció.");
+        } else if (diferenciaDias <= 7) {
+            console.log(`La evaluación está próxima. Faltan ${diferenciaDias} días.`);
+        }
     }
 }
 
