@@ -44,30 +44,30 @@ export class ServicioEvaluaciones {
     }
 
     verificarConflictos(): void {
-    for (let i = 0; i < this.evaluaciones.length; i++) {
-        for (let j = i + 1; j < this.evaluaciones.length; j++) {
+        for (let i = 0; i < this.evaluaciones.length; i++) {
+            for (let j = i + 1; j < this.evaluaciones.length; j++) {
 
-            const ev1 = this.evaluaciones[i]!;
-            const ev2 = this.evaluaciones[j]!;
+                const ev1 = this.evaluaciones[i]!;
+                const ev2 = this.evaluaciones[j]!;
 
-            const mismaFecha =
-                ev1.getFecha().toDateString() === ev2.getFecha().toDateString();
+                const mismaFecha =
+                    ev1.getFecha().toDateString() === ev2.getFecha().toDateString();
 
-            const mismoDia =
-                ev1.getHorario().getDia() === ev2.getHorario().getDia();
+                const mismoDia =
+                    ev1.getHorario().getDia() === ev2.getHorario().getDia();
 
-            const mismaHora =
-                ev1.getHorario().getHoraInicio() === ev2.getHorario().getHoraInicio() &&
-                ev1.getHorario().getHoraFin() === ev2.getHorario().getHoraFin();
+                const mismaHora =
+                    ev1.getHorario().getHoraInicio() === ev2.getHorario().getHoraInicio() &&
+                    ev1.getHorario().getHoraFin() === ev2.getHorario().getHoraFin();
 
-            const mismaAula =
-                ev1.getHorario().getAula() === ev2.getHorario().getAula();
+                const mismaAula =
+                    ev1.getHorario().getAula() === ev2.getHorario().getAula();
 
-            if (mismaFecha && mismoDia && mismaHora && mismaAula) {
-                console.log("\n CONFLICTO DETECTADO:");
-                console.log(`- ${ev1.getTitulo()} y ${ev2.getTitulo()}`);
+                if (mismaFecha && mismoDia && mismaHora && mismaAula) {
+                    console.log("\n CONFLICTO DETECTADO:");
+                    console.log(`- ${ev1.getTitulo()} y ${ev2.getTitulo()}`);
+                }
             }
         }
     }
-}
 }

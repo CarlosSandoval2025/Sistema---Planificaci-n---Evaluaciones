@@ -1,6 +1,7 @@
 import promptSync from "prompt-sync";
 const prompt = promptSync();
 
+import { ServicioHorarios } from "./Servicios/ServicioHorarios.js";
 import { ServicioEvaluaciones } from "./Servicios/ServicioEvaluaciones.js";
 import { EvaluacionAcademica } from "./Modelos/EvaluacionAcademica.js";
 import { EstadoEvaluacion } from "./Modelos/EstadoEvaluacion.js";
@@ -103,3 +104,18 @@ function pruebaServicio(): void {
 }
 
 pruebaServicio();
+
+function pruebaHorarios(): void {
+
+    const servicio = new ServicioHorarios();
+
+    const h1 = new Horario(1, "Lunes", "08:00", "10:00", "A101");
+    const h2 = new Horario(2, "Martes", "10:00", "12:00", "B202");
+
+    servicio.agregarHorario(h1);
+    servicio.agregarHorario(h2);
+
+    servicio.listarHorarios();
+}
+
+pruebaHorarios();
