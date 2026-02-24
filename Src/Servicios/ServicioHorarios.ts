@@ -16,6 +16,10 @@ export class ServicioHorarios {
             return;
         }
 
+        if (this.verificarConflictoCurso(horario)) {
+            return;
+        }
+
         this.horarios.push(horario);
         console.log("Horario registrado correctamente.");
     }
@@ -56,6 +60,26 @@ export class ServicioHorarios {
                 h.getDocente().getResumen() === nuevo.getDocente().getResumen();
 
             if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoDocente) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private verificarConflictoCurso(nuevo: Horario): boolean {
+
+        for (const h of this.horarios) {
+
+            const mismoDia = h.getDia() === nuevo.getDia();
+            const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
+            const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
+
+            const mismoCurso =
+                h.getCurso().getResumen() === nuevo.getCurso().getResumen();
+
+            if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoCurso) {
+                console.log("Conflicto detectado: el curso ya tiene clase en ese horario.");
                 return true;
             }
         }

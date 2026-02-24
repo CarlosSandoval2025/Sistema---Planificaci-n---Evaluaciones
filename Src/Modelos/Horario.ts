@@ -1,4 +1,5 @@
 import { Docente } from "./Docente.js";
+import { Curso } from "./Curso.js"; 
 
 export class Horario{
     private id: number;
@@ -7,14 +8,16 @@ export class Horario{
     private horaFin: string;
     private aula: string;
     private docente: Docente;
+    private curso: Curso;
 
-    constructor(id: number, dia: string, horaInicio: string, horaFin: string, aula: string,docente: Docente){
+    constructor(id: number, dia: string, horaInicio: string, horaFin: string, aula: string,docente: Docente,curso: Curso){
         this.id = id;
         this.dia =dia;
         this.horaInicio = horaInicio;
         this.horaFin =horaFin;
         this.aula = aula;
         this.docente = docente;
+        this.curso =curso;
     }
 
     getResumen(): string{
@@ -43,5 +46,9 @@ export class Horario{
 
     getDocente(): Docente {
         return this.docente;
+    }
+
+    getCurso(): Curso{
+        return this.curso;
     }
 }

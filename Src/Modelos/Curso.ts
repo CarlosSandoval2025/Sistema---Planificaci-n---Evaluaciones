@@ -1,7 +1,7 @@
 import { Docente } from "./Docente.js";
 import { EvaluacionAcademica } from "./EvaluacionAcademica.js"
 
-class Curso {
+export class Curso {
     private id: number;
     private nombre: string;
     private docente: Docente;

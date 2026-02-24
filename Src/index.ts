@@ -8,6 +8,7 @@ import { EstadoEvaluacion } from "./Modelos/EstadoEvaluacion.js";
 import { TipoEvaluacion } from "./Modelos/TipoEvaluacion.js";
 import { Horario } from "./Modelos/Horario.js";
 import { Docente } from "./Modelos/Docente.js";
+import { Curso } from "./Modelos/Curso.js";
 
 // luego aquí importarás tus servicios
 // import { menuRegistros } from "./Servicios/MenuRegistros.js";
@@ -68,13 +69,21 @@ function pruebaServicio(): void {
         "Matematica"
     );
 
+    const curso1 = new Curso(
+        1,
+        "Matematica I",
+        docente1,
+        4
+    );
+
     const horario = new Horario(
         1,
         "Lunes",
         "08:00",
         "10:00",
         "A101",
-        docente1
+        docente1,
+        curso1
     );
 
     const evaluacion1 = new  EvaluacionAcademica(
@@ -122,15 +131,45 @@ function pruebaHorarios(): void {
 
     const servicio = new ServicioHorarios();
 
-    const docente1 = new Docente(1,"Juan Perez","juan@uni.edu","Matematica");
+    const docente1 = new Docente(
+        1,
+        "Juan Perez",
+        "juan@uni.edu",
+        "Matematica"
+    );
 
-    const h1 = new Horario(1, "Lunes", "08:00", "10:00", "A101",docente1);
-    const h2 = new Horario(2, "Lunes", "08:00", "10:00", "B202",docente1); 
+    // AQUÍ SE CREA EL CURSO
+    const curso1 = new Curso(
+        1,
+        "Matematica I",
+        docente1,
+        4
+    );
+
+    //AQUÍ PASA EL CURSO AL HORARIO
+    const h1 = new Horario(
+        1,
+        "Lunes",
+        "08:00",
+        "10:00",
+        "A101",
+        docente1,
+        curso1
+    );
+
+    const h2 = new Horario(
+        2,
+        "Lunes",
+        "08:00",
+        "10:00",
+        "B202",
+        docente1,
+        curso1
+    );
 
     servicio.agregarHorario(h1);
-    servicio.agregarHorario(h2); // este debe fallar
+    servicio.agregarHorario(h2); // debe fallar por curso
 
     servicio.listarHorarios();
 }
-
 pruebaHorarios();
