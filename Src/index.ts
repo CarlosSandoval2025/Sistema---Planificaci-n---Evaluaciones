@@ -7,6 +7,7 @@ import { EvaluacionAcademica } from "./Modelos/EvaluacionAcademica.js";
 import { EstadoEvaluacion } from "./Modelos/EstadoEvaluacion.js";
 import { TipoEvaluacion } from "./Modelos/TipoEvaluacion.js";
 import { Horario } from "./Modelos/Horario.js";
+import { Docente } from "./Modelos/Docente.js";
 
 // luego aquí importarás tus servicios
 // import { menuRegistros } from "./Servicios/MenuRegistros.js";
@@ -57,11 +58,26 @@ function menuPrincipal(): void {
 
 // ===== PRUEBA TEMPORAL =====
 function pruebaServicio(): void {
+
     const servicio = new ServicioEvaluaciones();
 
-    const horario = new Horario(1, "Lunes", "08:00", "10:00", "A101");
+    const docente1 = new Docente(
+        1,
+        "Juan Perez",
+        "juan@uni.edu",
+        "Matematica"
+    );
 
-    const evaluacion = new EvaluacionAcademica(
+    const horario = new Horario(
+        1,
+        "Lunes",
+        "08:00",
+        "10:00",
+        "A101",
+        docente1
+    );
+
+    const evaluacion1 = new  EvaluacionAcademica(
         1,
         "Examen Parcial",
         TipoEvaluacion.EXAMEN,
@@ -80,8 +96,7 @@ function pruebaServicio(): void {
     EstadoEvaluacion.PROGRAMADA,
     horario
     );
-
-    servicio.agregarEvaluacion(evaluacion);
+    servicio.agregarEvaluacion(evaluacion1);
     servicio.agregarEvaluacion(evaluacion2);
 
     console.log("\n--- LISTADO INICIAL ---");
@@ -93,8 +108,6 @@ function pruebaServicio(): void {
     console.log("\n--- LISTADO DESPUES DE REPROGRAMAR ---");
     servicio.listarEvaluaciones();
 
-    console.log("\n--- HISTORIAL ---");
-    evaluacion.verHistorial();
 
     console.log("\n--- ALERTAS ---");
     servicio.verificarAlertas();
@@ -109,8 +122,10 @@ function pruebaHorarios(): void {
 
     const servicio = new ServicioHorarios();
 
-    const h1 = new Horario(1, "Lunes", "08:00", "10:00", "A101");
-    const h2 = new Horario(2, "Lunes", "08:00", "10:00", "A101"); // mismo aula y hora
+    const docente1 = new Docente(1,"Juan Perez","juan@uni.edu","Matematica");
+
+    const h1 = new Horario(1, "Lunes", "08:00", "10:00", "A101",docente1);
+    const h2 = new Horario(2, "Lunes", "08:00", "10:00", "B202",docente1); 
 
     servicio.agregarHorario(h1);
     servicio.agregarHorario(h2); // este debe fallar

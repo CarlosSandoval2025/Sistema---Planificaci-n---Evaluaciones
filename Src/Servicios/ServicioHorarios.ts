@@ -6,8 +6,13 @@ export class ServicioHorarios {
 
     agregarHorario(horario: Horario): void {
 
-        if(this.verificarConflictoAula(horario)){
-            console.log("Conflicto detectado en aula. No se puede Registrar.");
+        if (this.verificarConflictoAula(horario)) {
+            console.log("Conflicto detectado en aula.");
+            return;
+        }
+
+        if (this.verificarConflictoDocente(horario)) {
+            console.log("Conflicto detectado: el docente ya tiene clase en ese horario.");
             return;
         }
 
@@ -38,6 +43,23 @@ export class ServicioHorarios {
             return true;
             }
         }
+        return false;
+    }
+    
+    private verificarConflictoDocente(nuevo: Horario): boolean {
+        for (const h of this.horarios) {
+
+            const mismoDia = h.getDia() === nuevo.getDia();
+            const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
+            const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
+            const mismoDocente =
+                h.getDocente().getResumen() === nuevo.getDocente().getResumen();
+
+            if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoDocente) {
+                return true;
+            }
+        }
+
         return false;
     }
 }
