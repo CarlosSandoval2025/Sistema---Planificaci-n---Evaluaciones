@@ -9,7 +9,7 @@ export class Autoridad extends Persona {
         this.rango = rango;
     }
 
-    getRango(): string {
+    getRango(): Rango {
         return this.rango;
     }
 

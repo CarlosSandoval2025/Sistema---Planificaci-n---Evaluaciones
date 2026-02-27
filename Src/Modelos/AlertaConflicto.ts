@@ -1,22 +1,50 @@
-class AlertaConflicto{
+export class AlertaConflicto {
+
     private id: number;
-    private mensaje: string; 
-    private fecha: Date;
+    private mensaje: string;
+    private fechaGeneracion: Date;
     private tipo: string;
-    private activo: boolean;
-    
-    constructor(id: number, mensaje: string, fecha: Date, tipo: string, activo: boolean){
+    private activa: boolean;
+
+    constructor(
+        id: number,
+        mensaje: string,
+        fechaGeneracion: Date,
+        tipo: string,
+        activa: boolean
+    ) {
         this.id = id;
         this.mensaje = mensaje;
-        this.fecha = fecha;
+        this.fechaGeneracion = fechaGeneracion;
         this.tipo = tipo;
-        this.activo = activo;
+        this.activa = activa;
     }
 
-    getResumen(): string{
-        return "Alerta: " + this.mensaje + "\n" + 
-        "Tipo: " + this.tipo + "\n" +
-        "Fecha: " + this.fecha.toDateString() + "\n" +
-        "Activa: " + (this.activo ? "Si" : "No");
+    getId(): number {
+        return this.id;
+    }
+
+    getMensaje(): string {
+        return this.mensaje;
+    }
+
+    getFechaGeneracion(): Date {
+        return this.fechaGeneracion;
+    }
+
+    getTipo(): string {
+        return this.tipo;
+    }
+
+    estaActiva(): boolean {
+        return this.activa;
+    }
+
+    desactivar(): void {
+        this.activa = false;
+    }
+
+    getResumen(): string {
+        return `[${this.tipo}] ${this.mensaje} - ${this.fechaGeneracion.toLocaleString()}`;
     }
 }
