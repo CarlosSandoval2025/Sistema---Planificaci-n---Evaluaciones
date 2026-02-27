@@ -86,16 +86,20 @@ export class EvaluacionAcademica{
         });
     }
 
-    verificarAlerta(): void {
+    verificarAlerta(): string | null {
         const hoy = new Date();
         const diferenciaMs = this.fecha.getTime() - hoy.getTime();
         const diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
 
-        if (diferenciaDias < 0) {
-            console.log("La evaluación ya venció.");
-        } else if (diferenciaDias <= 7) {
-            console.log(`La evaluación está próxima. Faltan ${diferenciaDias} días.`);
+        if(diferenciaDias < 0){
+            return "VENCIDA";
         }
+        else{
+            if(diferenciaDias <= 7){
+                return `PROXIMA: ${diferenciaDias}`;
+            }
+        }
+        return null;
     }
 }
 

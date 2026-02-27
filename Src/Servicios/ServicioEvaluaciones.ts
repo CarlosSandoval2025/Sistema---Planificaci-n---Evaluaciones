@@ -1,8 +1,11 @@
 import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica.js";
 import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion.js";
+import { Curso } from "../Modelos/Curso.js";
 
 export class ServicioEvaluaciones {
     private evaluaciones: EvaluacionAcademica[] = [];
+    
+
 
     agregarEvaluacion(evaluacion: EvaluacionAcademica): void {
         this.evaluaciones.push(evaluacion);
@@ -66,18 +69,64 @@ export class ServicioEvaluaciones {
                 const mismoDia =
                     ev1.getHorario().getDia() === ev2.getHorario().getDia();
 
-                const mismaHora =
-                    ev1.getHorario().getHoraInicio() === ev2.getHorario().getHoraInicio() &&
-                    ev1.getHorario().getHoraFin() === ev2.getHorario().getHoraFin();
 
                 const mismaAula =
                     ev1.getHorario().getAula() === ev2.getHorario().getAula();
+                
+                const inicio1 = ev1.getHorario().getHoraInicio();
+                const fin1 = ev1.getHorario().getHoraFin();
+                const inicio2 = ev2.getHorario().getHoraInicio();
+                const fin2 = ev2.getHorario().getHoraFin();
 
-                if (mismaFecha && mismoDia && mismaHora && mismaAula) {
+                const cruceHoras = inicio1 < fin2 && fin1 > inicio2;
+
+                if (mismaFecha && mismoDia && mismaAula && cruceHoras) {
                     console.log("\nCONFLICTO DETECTADO:");
                     console.log(`- ${ev1.getTitulo()} y ${ev2.getTitulo()}`);
                 }
             }
         }
     }
+
+    consultarPorCurso(curso: Curso): void {
+
+        const evaluacionesCurso = this.evaluaciones.filter(ev =>
+            ev.getHorario().getCurso().getId() === curso.getId()
+        );
+
+        if (evaluacionesCurso.length === 0) {
+            console.log(`No hay evaluaciones registradas para el curso ${curso.getResumen()}`);
+            return;
+        }
+
+        console.log(`Evaluaciones del curso: ${curso.getResumen()}`);
+
+        evaluacionesCurso.forEach(ev => {
+            console.log("----------------------");
+            console.log(ev.getResumen());
+
+            // Aplicamos regla de alerta
+            ev.verificarAlerta();
+        });
+    }
+
+    consultarPorRangoFechas(fechaInicio: Date, fechaFin: Date): void{
+        const filtradas = this.evaluaciones.filter(ev => {
+            const fecha = ev.getFecha();
+            return fecha >= fechaInicio && fecha <= fechaFin;
+        });
+
+        if(filtradas.length === 0){
+            console.log("No hay evaluaciones en ese rango");
+            return;
+        }
+
+        console.log("Evaluaciones en el rango.");
+        filtradas.forEach( ev => {
+            console.log("-----------------------");
+            console.log(ev.getResumen());
+        })
+    }
+
+
 }
