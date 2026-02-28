@@ -87,18 +87,24 @@ export class EvaluacionAcademica{
     }
 
     verificarAlerta(): string | null {
+        
         const hoy = new Date();
-        const diferenciaMs = this.fecha.getTime() - hoy.getTime();
+        hoy.setHours(0, 0, 0, 0);
+        
+        const fechaEval = new Date(this.fecha);
+        fechaEval.setHours(0, 0, 0, 0);
+
+        const diferenciaMs = fechaEval.getTime() - hoy.getTime();
         const diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
 
         if(diferenciaDias < 0){
             return "VENCIDA";
         }
-        else{
-            if(diferenciaDias <= 7){
-                return `PROXIMA: ${diferenciaDias}`;
-            }
+
+        if(diferenciaDias <= 7) {
+            return `PROXIMA: ${diferenciaDias} dias`;
         }
+
         return null;
     }
 }

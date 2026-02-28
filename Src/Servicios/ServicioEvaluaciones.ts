@@ -128,7 +128,7 @@ export class ServicioEvaluaciones {
         }
     }
 
-    listaAlertasActivas(): void {
+    listarAlertasActivas(): void {
         const activas = this.alertas.filter(a => a.estaActiva());
 
         if(activas.length === 0){
@@ -181,5 +181,11 @@ export class ServicioEvaluaciones {
             console.log("-----------------------");
             console.log(ev.getResumen());
         });
+    }
+
+    generarReportePorCurso(curso: Curso): EvaluacionAcademica[] {
+        return this.evaluaciones.filter(ev =>
+            ev.getHorario().getCurso().getId() === curso.getId()
+        );
     }
 }
