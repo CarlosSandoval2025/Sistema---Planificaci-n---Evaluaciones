@@ -55,16 +55,25 @@ export class ServicioEvaluaciones {
             const resultado = e.verificarAlerta();
 
             if (resultado !== null) {
+                
+                const mensaje = `Alerta para ${e.getTitulo()} - ${resultado}`;
 
-                const alerta = new AlertaConflicto(
-                    this.contadorAlertas++,
-                    `Alerta para ${e.getTitulo()} - ${resultado}`,
-                    new Date(),
-                    "FECHA",
-                    true
+                const yaExiste = this.alertas.some(a => 
+                    a.getMensaje() === mensaje &&
+                    a.estaActiva()
                 );
 
-                this.alertas.push(alerta);
+                if(!yaExiste) {
+                    const alerta = new AlertaConflicto(
+                        this.contadorAlertas ++,
+                        mensaje,
+                        new Date(),
+                        "FECHA",
+                        true
+                    );
+
+                    this.alertas.push(alerta);
+                }
             }
 
         });
@@ -96,15 +105,24 @@ export class ServicioEvaluaciones {
 
                 if (mismaFecha && mismoDia && mismaAula && cruceHoras) {
 
-                    const alerta = new AlertaConflicto(
-                        this.contadorAlertas++,
-                        `Conflicto entre ${ev1.getTitulo()} y ${ev2.getTitulo()}`,
-                        new Date(),
-                        "CONFLICTO",
-                        true
+                    const mensaje = `Conflicto entre ${ev1.getTitulo()} y ${ev2.getTitulo()}`;
+
+                    const yaExiste = this.alertas.some(a =>
+                        a.getMensaje() === mensaje &&
+                        a.estaActiva()
                     );
 
-                    this.alertas.push(alerta);
+                    if(!yaExiste){
+                        const alerta = new AlertaConflicto(
+                            this.contadorAlertas++,
+                            mensaje,
+                            new Date(),
+                            "CONFLICTO",
+                            true
+                        );
+
+                        this.alertas.push(alerta);
+                    }
                 }
             }
         }
