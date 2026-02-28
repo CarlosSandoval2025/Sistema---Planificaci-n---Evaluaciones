@@ -69,7 +69,7 @@ export class ServicioEvaluaciones {
 
         });
     }
-
+    
     verificarConflictos(): void {
 
         for (let i = 0; i < this.evaluaciones.length; i++) {

@@ -4,8 +4,8 @@ import { Curso } from "./Curso.js";
 export class Horario{
     private id: number;
     private dia: string;
-    private horaInicio: string;
-    private horaFin: string;
+    private horaInicio: number;
+    private horaFin: number;
     private aula: string;
     private docente: Docente;
     private curso: Curso;
@@ -13,11 +13,42 @@ export class Horario{
     constructor(id: number, dia: string, horaInicio: string, horaFin: string, aula: string,docente: Docente,curso: Curso){
         this.id = id;
         this.dia =dia;
-        this.horaInicio = horaInicio;
-        this.horaFin =horaFin;
+        this.horaInicio = this.convertirHoraAMinutos(horaInicio);
+        this.horaFin = this.convertirHoraAMinutos(horaFin);
         this.aula = aula;
         this.docente = docente;
         this.curso =curso;
+    }
+
+    private convertirHoraAMinutos(hora: string): number {
+        const partes = hora.split(":");
+        const h: number = Number(partes[0]);
+        const m: number = Number(partes[1]);
+        return h * 60 + m;
+    }
+
+    private convertirMinutosAHoras(minutos: number): string {
+        const h = Math.floor(minutos / 60);
+        const m = minutos % 60;
+
+        let hora = "";
+        let minuto = "";
+
+        if(h < 10){
+            hora = "0" + h;
+        }
+        else{
+            hora = "" + h;
+        }
+
+        if(m < 10) {
+            minuto = "0" + m;
+        }
+        else{
+            minuto = "" + m;
+        }
+
+        return hora + ":" + minuto;
     }
 
     getResumen(): string{
@@ -32,11 +63,11 @@ export class Horario{
         return this.dia;
     }
 
-    getHoraInicio(): string {
+    getHoraInicio(): number {
         return this.horaInicio;
     }
 
-    getHoraFin(): string {
+    getHoraFin(): number {
         return this.horaFin;
     }
 
