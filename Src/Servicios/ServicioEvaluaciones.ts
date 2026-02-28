@@ -188,4 +188,11 @@ export class ServicioEvaluaciones {
             ev.getHorario().getCurso().getId() === curso.getId()
         );
     }
+
+    generarReportePorRangoFecha(fechaInicio: Date, fechaFin: Date): EvaluacionAcademica[] {
+        return this.evaluaciones.filter(ev => {
+            const fecha = ev.getFecha();
+            return fecha >= fechaInicio && fecha <= fechaFin; 
+        });
+    }
 }
