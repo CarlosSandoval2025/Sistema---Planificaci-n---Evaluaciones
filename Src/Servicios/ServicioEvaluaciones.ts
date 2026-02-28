@@ -195,4 +195,20 @@ export class ServicioEvaluaciones {
             return fecha >= fechaInicio && fecha <= fechaFin; 
         });
     }
+
+    formatearReporte(lista: EvaluacionAcademica[]): string {
+        if(lista.length === 0) {
+            return "No hay evaluaciones para el reporte.";
+        }
+
+        let resultado = "===== REPORTE ACADEMICO =====\n";
+
+        lista.forEach((ev, index) => {
+                resultado += `\nEvaluacion #${index + 1}\n`;
+                resultado += ev.getResumen() + "\n";
+                resultado += "-------------------------\n";
+        });
+
+        return resultado;
+    }
 }
