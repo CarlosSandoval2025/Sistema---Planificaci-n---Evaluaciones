@@ -15,6 +15,9 @@ export class Horario{
         this.dia =dia;
         this.horaInicio = this.convertirHoraAMinutos(horaInicio);
         this.horaFin = this.convertirHoraAMinutos(horaFin);
+        if(this.horaFin <= this.horaInicio){
+            throw new Error("La hora de fin debe ser mayor que la hora de Inicio");
+        }
         this.aula = aula;
         this.docente = docente;
         this.curso =curso;
@@ -53,8 +56,8 @@ export class Horario{
 
     getResumen(): string{
         return "Dia: " + this.dia + "\n" + 
-        "Inicio: " + this.horaInicio + "\n" +
-        "Fin: " + this.horaFin + "\n" +
+        "Inicio: " + this.convertirMinutosAHoras(this.horaInicio) + "\n" +
+        "Fin: " + this.convertirMinutosAHoras(this.horaFin) + "\n" +
         "Aula: " + this.aula + "\n" +
         "Docente: " + this.docente.getResumen() + "\n";
     }
