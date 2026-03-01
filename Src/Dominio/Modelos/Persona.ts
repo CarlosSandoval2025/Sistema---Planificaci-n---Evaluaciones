@@ -1,4 +1,4 @@
-export class Persona {
+export abstract class Persona {
     protected dni: string;
     protected nombre: string;
     protected correo: string;
@@ -21,7 +21,5 @@ export class Persona {
         return this.correo;
     }
 
-    getResumen(): string {
-        return `Nombre: ${this.nombre}\nCorreo: ${this.correo}`;
-    }
+    abstract getResumen(): string;
 }

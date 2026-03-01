@@ -1,32 +1,36 @@
-import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica";
-import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion";
-import { Curso } from "../Modelos/Curso";
-import { AlertaConflicto } from "../Modelos/AlertaConflicto";
+import { EvaluacionAcademica } from "../../Dominio/Modelos/EvaluacionAcademica";
+import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
+import { Curso } from "../../Dominio/Modelos/Curso";
+import { AlertaConflicto } from "../../Dominio/Modelos/AlertaConflicto";
+import { RepositorioEvaluaciones } from "../../Infraestructura/Repositorios/RepositorioEvaluaciones";
 
 export class ServicioEvaluaciones {
+    
+    constructor(
+        private repositorio: RepositorioEvaluaciones
+    ) {}
 
-    private evaluaciones: EvaluacionAcademica[] = [];
     private alertas: AlertaConflicto[] = [];
     private contadorAlertas: number = 1;
 
     agregarEvaluacion(evaluacion: EvaluacionAcademica): void {
-        this.evaluaciones.push(evaluacion);
+        this.repositorio.agregar(evaluacion);
     }
 
     listarEvaluaciones(): void {
-        if (this.evaluaciones.length === 0) {
+        if (this.repositorio.obtenerTodos().length === 0) {
             console.log("No hay evaluaciones registradas.");
             return;
         }
 
-        this.evaluaciones.forEach((ev, index) => {
+        this.repositorio.obtenerTodos().forEach((ev, index) => {
             console.log("\nEvaluación #" + (index + 1));
             console.log(ev.getResumen());
         });
     }
 
     cambiarEstado(id: number, nuevoEstado: EstadoEvaluacion): void {
-        const evaluacion = this.evaluaciones.find(e => e.getId() === id);
+        const evaluacion = this.repositorio.obtenerTodos().find(e => e.getId() === id);
 
         if (evaluacion) {
             evaluacion.setEstado(nuevoEstado);
@@ -37,7 +41,7 @@ export class ServicioEvaluaciones {
     }
 
     reprogramarEvaluacion(id: number, nuevaFecha: Date): void {
-        const evaluacion = this.evaluaciones.find(e => e.getId() === id);
+        const evaluacion = this.repositorio.obtenerTodos().find(e => e.getId() === id);
 
         if (!evaluacion) {
             console.log("Evaluación no encontrada.");
@@ -50,7 +54,7 @@ export class ServicioEvaluaciones {
 
     verificarAlertas(): void {
 
-        this.evaluaciones.forEach(e => {
+        this.repositorio.obtenerTodos().forEach(e => {
 
             const resultado = e.verificarAlerta();
 
@@ -80,12 +84,14 @@ export class ServicioEvaluaciones {
     }
     
     verificarConflictos(): void {
+        
+        const evaluaciones = this.repositorio.obtenerTodos();
 
-        for (let i = 0; i < this.evaluaciones.length; i++) {
-            for (let j = i + 1; j < this.evaluaciones.length; j++) {
+        for (let i = 0; i < evaluaciones.length; i++) {
+            for (let j = i + 1; j < evaluaciones.length; j++) {
 
-                const ev1 = this.evaluaciones[i]!;
-                const ev2 = this.evaluaciones[j]!;
+                const ev1 = evaluaciones[i]!;
+                const ev2 = evaluaciones[j]!;
 
                 const mismaFecha =
                     ev1.getFecha().toDateString() === ev2.getFecha().toDateString();
@@ -146,7 +152,7 @@ export class ServicioEvaluaciones {
 
     consultarPorCurso(curso: Curso): void {
 
-        const evaluacionesCurso = this.evaluaciones.filter(ev =>
+        const evaluacionesCurso = this.repositorio.obtenerTodos().filter(ev =>
             ev.getHorario().getCurso().getId() === curso.getId()
         );
 
@@ -165,7 +171,7 @@ export class ServicioEvaluaciones {
 
     consultarPorRangoFechas(fechaInicio: Date, fechaFin: Date): void {
 
-        const filtradas = this.evaluaciones.filter(ev => {
+        const filtradas = this.repositorio.obtenerTodos().filter(ev => {
             const fecha = ev.getFecha();
             return fecha >= fechaInicio && fecha <= fechaFin;
         });
@@ -184,13 +190,13 @@ export class ServicioEvaluaciones {
     }
 
     generarReportePorCurso(curso: Curso): EvaluacionAcademica[] {
-        return this.evaluaciones.filter(ev =>
+        return this.repositorio.obtenerTodos().filter(ev =>
             ev.getHorario().getCurso().getId() === curso.getId()
         );
     }
 
     generarReportePorRangoFecha(fechaInicio: Date, fechaFin: Date): EvaluacionAcademica[] {
-        return this.evaluaciones.filter(ev => {
+        return this.repositorio.obtenerTodos().filter(ev => {
             const fecha = ev.getFecha();
             return fecha >= fechaInicio && fecha <= fechaFin; 
         });
@@ -210,9 +216,9 @@ export class ServicioEvaluaciones {
         });
 
         return resultado;
-    }
+    }  
 
-    getEvaluaciones(): EvaluacionAcademica[] {
-        return this.evaluaciones;
+    public getEvaluaciones(): EvaluacionAcademica[] {
+        return this.repositorio.obtenerTodos();
     }
 }

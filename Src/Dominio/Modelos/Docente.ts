@@ -1,6 +1,7 @@
 import { Persona } from "./Persona";
+import { IReportable } from "../Interfaces/IReportable";
 
-export class Docente extends Persona{
+export class Docente extends Persona implements IReportable {
     private especialidad: string;
 
     constructor(dni: string, nombre: string, correo: string, especialidad: string){

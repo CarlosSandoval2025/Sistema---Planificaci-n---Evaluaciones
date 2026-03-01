@@ -1,9 +1,9 @@
 import { Horario } from "./Horario";
-import { TipoEvaluacion} from "./TipoEvaluacion";
-import { EstadoEvaluacion } from "./EstadoEvaluacion";
+import { TipoEvaluacion } from "../Enums/TipoEvaluacion";
+import { EstadoEvaluacion } from "../Enums/EstadoEvaluacion";
+import { IReportable } from "../Interfaces/IReportable";
 
-
-export class EvaluacionAcademica{
+export class EvaluacionAcademica implements IReportable {
     private id: number;
     private titulo: string;
     private tipo: TipoEvaluacion;

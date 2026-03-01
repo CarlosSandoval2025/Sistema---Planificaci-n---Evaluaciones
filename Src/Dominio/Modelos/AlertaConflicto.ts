@@ -1,4 +1,6 @@
-export class AlertaConflicto {
+import { IReportable } from "../Interfaces/IReportable";
+
+export class AlertaConflicto implements IReportable {
 
     private id: number;
     private mensaje: string;

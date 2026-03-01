@@ -1,7 +1,9 @@
+import { IReportable } from "../Interfaces/IReportable";
 import { Docente } from "./Docente";
-import { EvaluacionAcademica } from "./EvaluacionAcademica"
+import { EvaluacionAcademica } from "./EvaluacionAcademica";
 
-export class Curso {
+
+export class Curso implements IReportable {
     private id: number;
     private nombre: string;
     private docente: Docente;

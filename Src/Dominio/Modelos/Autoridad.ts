@@ -1,5 +1,5 @@
 import { Persona } from "./Persona";
-import { Rango } from "./Rango";
+import { Rango } from "../Enums/Rango";
 
 export class Autoridad extends Persona {
     private rango:  Rango;
@@ -14,7 +14,6 @@ export class Autoridad extends Persona {
     }
 
     getResumen(): string {
-        return super.getResumen() +
-        `\nRango: ${this.rango}`;
+        return `Autoridad: ${this.getNombre()} - ${this.getCorreo()}`;
     }
 }

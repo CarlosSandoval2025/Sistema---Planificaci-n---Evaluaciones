@@ -1,12 +1,13 @@
 import PromptSync from "prompt-sync";
-import { ServicioHorarios } from "../Servicios/ServicioHorarios";
-import { ServicioEvaluaciones } from "../Servicios/ServicioEvaluaciones";
-import { Docente } from "../Modelos/Docente";
-import { Curso } from "../Modelos/Curso";
-import { Horario } from "../Modelos/Horario";
-import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica";
-import { TipoEvaluacion } from "../Modelos/TipoEvaluacion";
-import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion";
+import { ServicioHorarios } from "../Aplicación/Servicios.ts/ServicioHorarios";
+import { ServicioEvaluaciones } from "../Aplicación/Servicios.ts/ServicioEvaluaciones";
+import { Docente } from "../Dominio/Modelos/Docente";
+import { Curso } from "../Dominio/Modelos/Curso";
+import { Horario } from "../Dominio/Modelos/Horario";
+import { EvaluacionAcademica } from "../Dominio/Modelos/EvaluacionAcademica";
+import { TipoEvaluacion } from "../Dominio/Enums/TipoEvaluacion";
+import { EstadoEvaluacion } from "../Dominio/Enums/EstadoEvaluacion";
+import { ServicioReportes } from "../Aplicación/Servicios.ts/ServicioReportes";
 
 const prompt = PromptSync();
 
@@ -171,14 +172,17 @@ export class Menu {
                     console.log("Evaluacion creada.");
                     break;
 
-                case 5:
-                    this.servicioEvaluaciones.listarEvaluaciones();
-                    break;    
-                
-                case 6:
-                    this.servicioHorarios.listarHorarios();
-                    break;
+                case 5: {
+                    const evaluaciones = this.servicioEvaluaciones.getEvaluaciones();
 
+                    ServicioReportes.imprimirListaReportes(evaluaciones);
+                    break;    
+                }
+                case 6: {
+                    const horarios = this.servicioHorarios.getHorarios();
+                    ServicioReportes.imprimirListaReportes(horarios)
+                    break;
+                }
                 case 7:
                     this.servicioEvaluaciones.verificarAlertas();
                     this.servicioEvaluaciones.verificarConflictos();

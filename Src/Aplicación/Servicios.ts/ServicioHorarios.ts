@@ -1,4 +1,4 @@
-import { Horario } from "../Modelos/Horario";
+import { Horario } from "../../Dominio/Modelos/Horario";
 
 export class ServicioHorarios {
 
@@ -99,7 +99,7 @@ export class ServicioHorarios {
         return false;
     }
 
-    getHorarios(): Horario[] {
+    public getHorarios(): Horario[] {
         return this.horarios;
     }
 }
