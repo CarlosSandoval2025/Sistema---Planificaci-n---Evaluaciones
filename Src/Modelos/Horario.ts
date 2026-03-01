@@ -1,5 +1,5 @@
-import { Docente } from "./Docente.js";
-import { Curso } from "./Curso.js"; 
+import { Docente } from "./Docente";
+import { Curso } from "./Curso"; 
 
 export class Horario{
     private id: number;

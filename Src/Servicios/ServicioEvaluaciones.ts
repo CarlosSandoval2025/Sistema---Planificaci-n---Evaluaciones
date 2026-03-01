@@ -1,7 +1,7 @@
-import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica.js";
-import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion.js";
-import { Curso } from "../Modelos/Curso.js";
-import { AlertaConflicto } from "../Modelos/AlertaConflicto.js";
+import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica";
+import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion";
+import { Curso } from "../Modelos/Curso";
+import { AlertaConflicto } from "../Modelos/AlertaConflicto";
 
 export class ServicioEvaluaciones {
 
@@ -196,7 +196,7 @@ export class ServicioEvaluaciones {
         });
     }
 
-    formatearReporte(lista: EvaluacionAcademica[]): string {
+    ConstruirReporte(lista: EvaluacionAcademica[]): string {
         if(lista.length === 0) {
             return "No hay evaluaciones para el reporte.";
         }

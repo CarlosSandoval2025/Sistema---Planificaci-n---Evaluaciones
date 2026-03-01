@@ -1,6 +1,6 @@
-import { Horario } from "./Horario.js";
-import { TipoEvaluacion} from "./TipoEvaluacion.js";
-import { EstadoEvaluacion } from "./EstadoEvaluacion.js";
+import { Horario } from "./Horario";
+import { TipoEvaluacion} from "./TipoEvaluacion";
+import { EstadoEvaluacion } from "./EstadoEvaluacion";
 
 
 export class EvaluacionAcademica{

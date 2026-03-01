@@ -1,5 +1,5 @@
-import { Docente } from "./Docente.js";
-import { EvaluacionAcademica } from "./EvaluacionAcademica.js"
+import { Docente } from "./Docente";
+import { EvaluacionAcademica } from "./EvaluacionAcademica"
 
 export class Curso {
     private id: number;

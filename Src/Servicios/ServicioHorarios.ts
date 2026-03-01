@@ -1,4 +1,4 @@
-import { Horario } from "../Modelos/Horario.js";
+import { Horario } from "../Modelos/Horario";
 
 export class ServicioHorarios {
 

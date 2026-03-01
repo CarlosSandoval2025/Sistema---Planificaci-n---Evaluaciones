@@ -1,4 +1,4 @@
-import { Persona } from "./Persona.js";
+import { Persona } from "./Persona";
 
 export class Docente extends Persona{
     private especialidad: string;

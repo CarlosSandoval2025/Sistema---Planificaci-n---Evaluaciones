@@ -1,5 +1,5 @@
-import { Persona } from "./Persona.js";
-import { Rango } from "./Rango.js";
+import { Persona } from "./Persona";
+import { Rango } from "./Rango";
 
 export class Autoridad extends Persona {
     private rango:  Rango;

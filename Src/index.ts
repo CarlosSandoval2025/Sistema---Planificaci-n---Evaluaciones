@@ -1,17 +1,17 @@
 import promptSync from "prompt-sync";
 const prompt = promptSync();
 
-import { ServicioHorarios } from "./Servicios/ServicioHorarios.js";
-import { ServicioEvaluaciones } from "./Servicios/ServicioEvaluaciones.js";
-import { EvaluacionAcademica } from "./Modelos/EvaluacionAcademica.js";
-import { EstadoEvaluacion } from "./Modelos/EstadoEvaluacion.js";
-import { TipoEvaluacion } from "./Modelos/TipoEvaluacion.js";
-import { Horario } from "./Modelos/Horario.js";
-import { Docente } from "./Modelos/Docente.js";
-import { Curso } from "./Modelos/Curso.js";
+import { ServicioHorarios } from "./Servicios/ServicioHorarios";
+import { ServicioEvaluaciones } from "./Servicios/ServicioEvaluaciones";
+import { EvaluacionAcademica } from "./Modelos/EvaluacionAcademica";
+import { EstadoEvaluacion } from "./Modelos/EstadoEvaluacion";
+import { TipoEvaluacion } from "./Modelos/TipoEvaluacion";
+import { Horario } from "./Modelos/Horario";
+import { Docente } from "./Modelos/Docente";
+import { Curso } from "./Modelos/Curso";
 
 // luego aquí importarás tus servicios
-// import { menuRegistros } from "./Servicios/MenuRegistros.js";
+// import { menuRegistros } from "./Servicios/MenuRegistros";
 
 function menuPrincipal(): void {
     let opcion: string = "";
