@@ -98,4 +98,8 @@ export class ServicioHorarios {
 
         return false;
     }
+
+    getHorarios(): Horario[] {
+        return this.horarios;
+    }
 }

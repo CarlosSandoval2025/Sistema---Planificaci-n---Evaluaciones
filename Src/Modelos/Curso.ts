@@ -23,4 +23,8 @@ export class Curso {
     getId(): number {
         return this.id;
     }
+
+    getDocente(): Docente {
+        return this.docente;
+    }
 }

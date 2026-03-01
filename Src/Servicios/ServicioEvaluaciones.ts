@@ -211,4 +211,8 @@ export class ServicioEvaluaciones {
 
         return resultado;
     }
+
+    getEvaluaciones(): EvaluacionAcademica[] {
+        return this.evaluaciones;
+    }
 }

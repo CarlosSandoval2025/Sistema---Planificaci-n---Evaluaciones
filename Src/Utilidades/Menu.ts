@@ -1,10 +1,19 @@
 import PromptSync from "prompt-sync";
 import { ServicioHorarios } from "../Servicios/ServicioHorarios";
 import { ServicioEvaluaciones } from "../Servicios/ServicioEvaluaciones";
+import { Docente } from "../Modelos/Docente";
+import { Curso } from "../Modelos/Curso";
+import { Horario } from "../Modelos/Horario";
+import { EvaluacionAcademica } from "../Modelos/EvaluacionAcademica";
+import { TipoEvaluacion } from "../Modelos/TipoEvaluacion";
+import { EstadoEvaluacion } from "../Modelos/EstadoEvaluacion";
 
 const prompt = PromptSync();
 
 export class Menu {
+
+    private docentes: Docente[] = [];
+    private cursos: Curso[] = [];
 
     constructor(
         private servicioHorarios: ServicioHorarios,
@@ -18,11 +27,13 @@ export class Menu {
         do {
 
             console.log("====== SISTEMA ACADEMICO ======");
-            console.log("1. Modulo de Cursos");
-            console.log("2. Modulo de Evaluaciones");
-            console.log("3. Modulo de Horarios");
-            console.log("4. Modulo de Calendario");
-            console.log("5. Modulo de Alertas de Conflicto");            
+            console.log("1. Crear Docente");
+            console.log("2. Crear Curso");
+            console.log("3. Crear Horario");
+            console.log("4. Crear Evaluacion");
+            console.log("5. Ver Evaluaciones");
+            console.log("6. Ver Horarios");
+            console.log("7. Ver Alertas");
             console.log("0. Salir");
             
             opcion = Number(prompt("Seleccione una Opcion: "));
@@ -34,22 +45,141 @@ export class Menu {
 
             switch (opcion) {
                 case 1:
-                    console.log("Modulo de Curso en construccion.");
+                    const dni = prompt("DNI: ");
+                    const nombre = prompt("Nombre: ");
+                    const correo = prompt("Correo: ");
+                    const especialidad = prompt("Especialidad: ");
+
+                    const docente = new Docente(dni, nombre, correo, especialidad);
+                    this.docentes.push(docente);
+
+                    console.log("Docente creado.");
                     break;
                 
                 case 2:
-                    this.moduloEvaluaciones();
+                    if (this.docentes.length === 0) {
+                        console.log("Primero debe crear un docente.");
+                        break;
+                    }
+
+                    const idCurso = Number(prompt("ID curso: "));
+                    const nombreCurso = prompt("Nombre curso: ");
+                    const creditos = Number(prompt("Creditos: "));
+
+                    console.log("Seleccione docente:");
+                    this.docentes.forEach((d, i) => {
+                        console.log(`${i + 1}. ${d.getResumen()}`);
+                    });
+
+                    const indiceDoc = Number(prompt("Seleccione: ")) - 1;
+                    const docenteSeleccionado = this.docentes[indiceDoc];
+
+                    if(!docenteSeleccionado) {
+                        console.log("Docente invalido.");
+                        break;
+                    }
+
+                    const curso = new Curso (
+                        idCurso,
+                        nombreCurso,
+                        docenteSeleccionado,
+                        creditos
+                    );
+
+                    this.cursos.push(curso);
+
+                    console.log("Curso creado.");
                     break;
 
                 case 3:
-                    this.servicioHorarios.listarHorarios();
+                    if (this.cursos.length === 0) {
+                        console.log("Primero debe crear un curso.");
+                        break;
+                    }
+
+                    const idHorario = Number(prompt("ID horario: "));
+                    const dia = prompt("Dia: ");
+                    const inicio = prompt("Hora inicio (HH:MM): ");
+                    const fin = prompt("Hora fin (HH:MM): ");
+                    const aula = prompt("Aula: ");
+
+                    console.log("Seleccione curso:");
+                    this.cursos.forEach((c, i) => {
+                        console.log(`${i + 1}. ${c.getResumen()}`);
+                    });
+
+                    const indiceCurso = Number(prompt("Seleccione: ")) - 1;
+                    const cursoSel = this.cursos[indiceCurso];
+
+                    if(!cursoSel) {
+                        console.log("Curso invalido");
+                        break;
+                    }
+
+                    const docenteCurso = cursoSel.getDocente();
+
+                    const horario = new Horario(
+                        idHorario,
+                        dia,
+                        inicio,
+                        fin,
+                        aula,
+                        docenteCurso,
+                        cursoSel
+                    );
+
+                    this.servicioHorarios.agregarHorario(horario);
                     break;
 
                 case 4:
-                    this.moduloCalendario();
+                    const horarios = this.servicioHorarios.getHorarios();
+
+                    if (horarios.length === 0) {
+                        console.log("Primero debe crear un horario.");
+                        break;
+                    }
+
+                    const idEv = Number(prompt("ID evaluacion: "));
+                    const titulo = prompt("Titulo: ");
+                    const fecha = new Date(prompt("Fecha (YYYY-MM-DD): "));
+                    const duracion = Number(prompt("Duracion minutos: "));
+
+                    console.log("Seleccione horario:");
+                    horarios.forEach((h, i) => {
+                        console.log(`${i + 1}. ${h.getResumen()}`);
+                    });
+
+                    const indiceHorario = Number(prompt("Seleccione: ")) - 1;
+                    const horarioSel = horarios[indiceHorario];
+
+                    if(!horarioSel) {
+                        console.log("Horario invalido");
+                        break;
+                    }
+
+                    const evaluacion = new EvaluacionAcademica(
+                        idEv,
+                        titulo,
+                        TipoEvaluacion.EXAMEN,
+                        fecha,
+                        duracion,
+                        EstadoEvaluacion.PROGRAMADA,
+                        horarioSel
+                    );
+
+                    this.servicioEvaluaciones.agregarEvaluacion(evaluacion);
+                    console.log("Evaluacion creada.");
                     break;
 
                 case 5:
+                    this.servicioEvaluaciones.listarEvaluaciones();
+                    break;    
+                
+                case 6:
+                    this.servicioHorarios.listarHorarios();
+                    break;
+
+                case 7:
                     this.servicioEvaluaciones.verificarAlertas();
                     this.servicioEvaluaciones.verificarConflictos();
                     this.servicioEvaluaciones.listarAlertasActivas();
