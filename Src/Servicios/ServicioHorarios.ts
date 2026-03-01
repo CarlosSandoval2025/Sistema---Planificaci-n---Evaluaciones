@@ -40,11 +40,16 @@ export class ServicioHorarios {
         for(const h of this.horarios) {
             const mismoDia = h.getDia() === nuevo.getDia();
             const mismaAula = h.getAula() === nuevo.getAula();
-            const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
-            const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
+            
+            const inicio1 = h.getHoraInicio();
+            const fin1 = h.getHoraFin();
+            const inicio2 = nuevo.getHoraInicio();
+            const fin2 = nuevo. getHoraFin();
 
-            if(mismoDia && mismaAula && mismaHoraInicio && mismaHoraFin) {
-            return true;
+            const hayCruce = inicio1 < fin2 && fin1 > inicio2;
+
+            if(mismoDia && mismaAula && hayCruce) {
+                return true;
             }
         }
         return false;
@@ -54,12 +59,16 @@ export class ServicioHorarios {
         for (const h of this.horarios) {
 
             const mismoDia = h.getDia() === nuevo.getDia();
-            const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
-            const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
-            const mismoDocente =
-                h.getDocente().getDni() === nuevo.getDocente().getDni();
+            const mismoDocente = h.getDocente().getDni() === nuevo.getDocente().getDni();
+            
+            const inicio1 = h.getHoraInicio();
+            const fin1 = h.getHoraFin();
+            const inicio2 = nuevo.getHoraInicio();
+            const fin2 = nuevo. getHoraFin();
 
-            if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoDocente) {
+            const hayCruce = inicio1 < fin2 && fin1 > inicio2;
+
+            if (mismoDia && mismoDocente && hayCruce) {
                 return true;
             }
         }
@@ -72,13 +81,16 @@ export class ServicioHorarios {
         for (const h of this.horarios) {
 
             const mismoDia = h.getDia() === nuevo.getDia();
-            const mismaHoraInicio = h.getHoraInicio() === nuevo.getHoraInicio();
-            const mismaHoraFin = h.getHoraFin() === nuevo.getHoraFin();
+            const mismoCurso = h.getCurso().getId() === nuevo.getCurso().getId();
+             
+            const inicio1 = h.getHoraInicio();
+            const fin1 = h.getHoraFin();
+            const inicio2 = nuevo.getHoraInicio();
+            const fin2 = nuevo. getHoraFin();
 
-            const mismoCurso =
-                h.getCurso().getId() === nuevo.getCurso().getId();
+            const hayCruce = inicio1 < fin2 && fin1 > inicio2;
 
-            if (mismoDia && mismaHoraInicio && mismaHoraFin && mismoCurso) {
+            if (mismoDia && mismoCurso && hayCruce) {
                 console.log("Conflicto detectado: el curso ya tiene clase en ese horario.");
                 return true;
             }
