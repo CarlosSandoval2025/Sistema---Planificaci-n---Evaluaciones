@@ -1,0 +1,31 @@
+PROMPTS UTILIZADOS DURANTE EL DESARROLLO
+
+1.- Diseño de arquitectura.
+Como organizar mi proyecto en capas usando TypeScript si frameworks?
+
+2.- Principios de programación orientada a objetos.
+Como aplicar herencia y encapsulamiento en un sistema academico?
+
+3.- Uso de interfaces y Polimorfismo 
+Como usar una interfaz para que varias clases generen reportes?
+
+4.- Persistencia en Archivos JSON.
+Como podria implementar el tema de Archivos de guardar y leer datos en JSON usando fs?
+
+5.- Reconstruccion de objetos desde JSON.
+Como podria reconstruir objetos desde JSON sin perder metodos?
+
+6.- Implementacion de Repositiorio Genério.
+Como crear un Repositiorio generico reutilizable?
+
+7.- Validacion de conflictos de Horario.
+Como validar conflictos de horario comparando horas?
+
+8.- Sistema de Alertas.
+Como generar alertas automaticas para evaluaciones proximas?
+
+9.- Historial de Cambios.
+Como podria registrar historial de cambios al reprogramar una evaluación?
+
+10.- Separación de Responsabilidades.
+Como se podrian separar responsabilidades entre archivos y repositorios?
