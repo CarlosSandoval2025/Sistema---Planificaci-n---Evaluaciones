@@ -23,6 +23,36 @@ export class Horario{
         this.curso =curso;
     }
 
+    static desdeJSON(obj: any): Horario{
+        const docente = new Docente(
+            obj.docente.dni,
+            obj.docente.nombre,
+            obj.docente.correo,
+            obj.docente.especialidad
+        );
+
+        const curso = new Curso(
+            obj.curso.id,
+            obj.curso.nombre,
+            docente,
+            obj.curso.creditos
+        );
+
+        const horario = new Horario(
+            obj.id,
+            obj.dia,
+            "00:00",
+            "00:00",
+            obj.aula,
+            docente,
+            curso
+        );
+
+        (horario as any).horaInicio = obj.horaInicio;
+        (horario as any).horaFin = obj.horaFin;
+
+        return horario;
+    }
     private convertirHoraAMinutos(hora: string): number {
         const partes = hora.split(":");
         const h: number = Number(partes[0]);
@@ -60,6 +90,10 @@ export class Horario{
         "Fin: " + this.convertirMinutosAHoras(this.horaFin) + "\n" +
         "Aula: " + this.aula + "\n" +
         "Docente: " + this.docente.getResumen() + "\n";
+    }
+
+    getId(): number {
+        return this.id;
     }
 
     getDia(): string {

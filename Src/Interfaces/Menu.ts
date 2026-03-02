@@ -35,6 +35,9 @@ export class Menu {
             console.log("5. Ver Evaluaciones");
             console.log("6. Ver Horarios");
             console.log("7. Ver Alertas");
+            console.log("8. Eliminar");
+            console.log("9. Modificar Docente en Horario");
+            console.log("10. Modificar Curso en Horario");
             console.log("0. Salir");
             
             opcion = Number(prompt("Seleccione una Opcion: "));
@@ -173,20 +176,78 @@ export class Menu {
                     break;
 
                 case 5: {
-                    const evaluaciones = this.servicioEvaluaciones.getEvaluaciones();
 
-                    ServicioReportes.imprimirListaReportes(evaluaciones);
+                    ServicioReportes.imprimirListaReportes(
+                        this.servicioEvaluaciones.getEvaluaciones()
+                    );
                     break;    
                 }
                 case 6: {
-                    const horarios = this.servicioHorarios.getHorarios();
-                    ServicioReportes.imprimirListaReportes(horarios)
+                    ServicioReportes.imprimirListaReportes(
+                        this.servicioHorarios.getHorarios()
+                    );
                     break;
                 }
                 case 7:
                     this.servicioEvaluaciones.verificarAlertas();
                     this.servicioEvaluaciones.verificarConflictos();
                     this.servicioEvaluaciones.listarAlertasActivas();
+                    break;
+
+                case 8:
+                    console.log("1. Eliminar Evaluacion.");
+                    console.log("2. Eliminar Horario.");
+
+                    const opcionEliminar = Number(prompt("Selecciones opcion"));
+                    const idEliminar = Number(prompt("Ingrese ID: "));
+
+                    switch(opcionEliminar) {
+                        case 1:
+                            this.servicioEvaluaciones.eliminarEvaluacion(idEliminar);
+                            console.log("Evaluacion eliminada.");
+                            break;
+                        case 2:
+                            this.servicioHorarios.eliminarHorario(idEliminar);
+                            console.log("Horario eliminado.");
+                            break;
+                        default:
+                            console.log("Opcion invalida.");
+                            
+                    }
+                    break;
+
+                case 9:
+                    const idHorarioDoc = Number(prompt("ID del horario: "));
+                    const nuevoNombre = prompt("Nuevo nombre (enter para omitir): ");
+                    const nuevoCorreo = prompt("Nuevo correo (enter para omitir): ");
+                    const nuevaEspecialidad = prompt("Nueva especialidad (enter para omitir): ");
+
+                    this.servicioHorarios.modificarDocente(
+                        idHorarioDoc,
+                        nuevoNombre || undefined,
+                        nuevoCorreo || undefined,
+                        nuevaEspecialidad || undefined
+                    );
+
+                    console.log("Docente actualizado.");
+                    break;
+
+                case 10:
+                    const idHorarioCurso = Number(prompt("ID del horario: "));
+                    const nuevoNombreCurso = prompt("Nuevo nombre curso (enter para omitir): ");
+                    const nuevosCreditosTexto = prompt("Nuevos creditos (enter para omitir): ");
+
+                    const nuevosCreditos = nuevosCreditosTexto
+                        ? Number(nuevosCreditosTexto)
+                        : undefined;
+
+                    this.servicioHorarios.modificarCurso(
+                        idHorarioCurso,
+                        nuevoNombreCurso || undefined,
+                        nuevosCreditos
+                    );
+
+                    console.log("Curso actualizado.");
                     break;
 
                 case 0:

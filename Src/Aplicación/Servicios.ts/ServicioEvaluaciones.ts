@@ -221,4 +221,9 @@ export class ServicioEvaluaciones {
     public getEvaluaciones(): EvaluacionAcademica[] {
         return this.repositorio.obtenerTodos();
     }
+
+    eliminarEvaluacion(id: number): void {
+        this.repositorio.eliminar(id);
+        console.log("Evaluacion eliminada correctamente.");
+    }
 }

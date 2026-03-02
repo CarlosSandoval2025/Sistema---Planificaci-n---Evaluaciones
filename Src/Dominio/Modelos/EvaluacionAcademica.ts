@@ -11,7 +11,7 @@ export class EvaluacionAcademica implements IReportable {
     private duracionMin: number;
     private estado: EstadoEvaluacion;
     private horario: Horario;
-    private historialCambios: string[] = [];
+    private historialCambios: string[];
 
     constructor(id: number, titulo: string, tipo: TipoEvaluacion, fecha: Date, duracionMin: number, estado: EstadoEvaluacion, horario: Horario){
         this.id = id;
@@ -23,6 +23,26 @@ export class EvaluacionAcademica implements IReportable {
         this.horario = horario;
         this.historialCambios = [];
     } 
+
+    static desdeJSON(obj: any): EvaluacionAcademica {
+        const horario = Horario.desdeJSON(obj.horario);
+
+        const evaluacion = new EvaluacionAcademica(
+            obj.id,
+            obj.titulo,
+            obj.tipo as TipoEvaluacion,
+            new Date(obj.fecha),
+            obj.duracionMin,
+            obj.estado as EstadoEvaluacion,
+            horario
+        );
+
+        if (obj.historialCambios) {
+            evaluacion.historialCambios = obj.historialCambios;
+        }
+
+        return evaluacion;
+    }
 
     getId(): number {
         return this.id;

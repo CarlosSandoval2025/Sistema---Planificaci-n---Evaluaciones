@@ -1,3 +1,4 @@
+import { time } from "node:console";
 import { IReportable } from "../Interfaces/IReportable";
 import { Docente } from "./Docente";
 import { EvaluacionAcademica } from "./EvaluacionAcademica";
@@ -18,6 +19,8 @@ export class Curso implements IReportable {
         this.evaluaciones = [];
     }
 
+
+
     getResumen(): string{
         return this.nombre + " - Docente: " + this.docente.getResumen() + " - Creditos: " + this.creditos;
     }
@@ -28,5 +31,13 @@ export class Curso implements IReportable {
 
     getDocente(): Docente {
         return this.docente;
+    }
+
+    actualizarNombre(nuevoNombre: string): void {
+        this.nombre = nuevoNombre;
+    }
+
+    actualizarCreditos(nuevosCreditos: number): void {
+        this.creditos = nuevosCreditos;
     }
 }
