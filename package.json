@@ -1,16 +1,12 @@
 {
   "name": "sistema---evaluaciones-academicas",
   "version": "1.0.0",
-  "description": "",
   "main": "dist/Interfaces/Web/server.js",
   "scripts": {
     "dev": "ts-node Src/Interfaces/Web/server.ts",
-    "build": "rmdir /s /q dist && tsc",
+    "build": "rm -rf dist && tsc",
     "start": "node dist/Interfaces/Web/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^5.2.1",
     "prompt-sync": "^4.2.0"
