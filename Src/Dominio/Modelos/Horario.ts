@@ -38,20 +38,19 @@ export class Horario{
             obj.curso.creditos
         );
 
-        const horario = new Horario(
+        const horaInicioStr = Horario.convertirMinutosAString(obj.horaInicio);
+        const horaFinStr = Horario.convertirMinutosAString(obj.horaFin);
+
+        return new Horario(
             obj.id,
             obj.dia,
-            "00:00",
-            "00:00",
+            horaInicioStr,
+            horaFinStr,
             obj.aula,
             docente,
             curso
         );
 
-        (horario as any).horaInicio = obj.horaInicio;
-        (horario as any).horaFin = obj.horaFin;
-
-        return horario;
     }
     private convertirHoraAMinutos(hora: string): number {
         const partes = hora.split(":");
@@ -80,6 +79,16 @@ export class Horario{
         else{
             minuto = "" + m;
         }
+
+        return hora + ":" + minuto;
+    }
+
+    private static convertirMinutosAString(minutos: number): string {
+        const h = Math.floor(minutos / 60);
+        const m = minutos % 60;
+
+        const hora = h < 10 ? "0" + h : "" + h;
+        const minuto = m < 10 ? "0" + m : "" + m;
 
         return hora + ":" + minuto;
     }

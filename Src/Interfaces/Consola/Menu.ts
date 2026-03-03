@@ -1,13 +1,14 @@
 import PromptSync from "prompt-sync";
-import { ServicioHorarios } from "../Aplicación/Servicios.ts/ServicioHorarios";
-import { ServicioEvaluaciones } from "../Aplicación/Servicios.ts/ServicioEvaluaciones";
-import { Docente } from "../Dominio/Modelos/Docente";
-import { Curso } from "../Dominio/Modelos/Curso";
-import { Horario } from "../Dominio/Modelos/Horario";
-import { EvaluacionAcademica } from "../Dominio/Modelos/EvaluacionAcademica";
-import { TipoEvaluacion } from "../Dominio/Enums/TipoEvaluacion";
-import { EstadoEvaluacion } from "../Dominio/Enums/EstadoEvaluacion";
-import { ServicioReportes } from "../Aplicación/Servicios.ts/ServicioReportes";
+
+import { ServicioHorarios } from "../../Aplicacion/Servicios/ServicioHorarios";
+import { ServicioEvaluaciones } from "../../Aplicacion/Servicios/ServicioEvaluaciones";
+import { Docente } from "../../Dominio/Modelos/Docente";
+import { Curso } from "../../Dominio/Modelos/Curso";
+import { Horario } from "../../Dominio/Modelos/Horario";
+import { EvaluacionAcademica } from "../../Dominio/Modelos/EvaluacionAcademica";
+import { TipoEvaluacion } from "../../Dominio/Enums/TipoEvaluacion";
+import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
+import { ServicioReportes } from "../../Aplicacion/Servicios/ServicioReportes";
 
 const prompt = PromptSync();
 
