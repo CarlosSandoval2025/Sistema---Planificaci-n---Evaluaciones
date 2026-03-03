@@ -4,18 +4,19 @@
   "description": "",
   "main": "dist/Interfaces/Web/server.js",
   "scripts": {
-    "build": "tsc",
+    "dev": "ts-node Src/Interfaces/Web/server.ts",
+    "build": "rmdir /s /q dist && tsc",
     "start": "node dist/Interfaces/Web/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^5.0.6",
     "express": "^5.2.1",
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.3.3",
     "@types/prompt-sync": "^4.2.3",
     "ts-node": "^10.9.2",
