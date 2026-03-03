@@ -19,70 +19,89 @@ import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
 const app = express();
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.json({ mensaje: "API funcionando correctamente 🚀" });
-});
+// 🔥 CONFIGURACIÓN PARA SERVIR HTML
+app.use(express.static(path.join(__dirname, "public")));
 
+// ================= SERVICIOS =================
 const servicioDocentes = new ServicioDocentes(new RepositorioDocentes());
 const servicioHorarios = new ServicioHorarios(new RepositorioHorarios());
 const servicioEvaluaciones = new ServicioEvaluaciones(new RepositorioEvaluaciones());
 
-// DOCENTES
+// ================= DOCENTES =================
 app.get("/docentes", (req, res) => res.json(servicioDocentes.getDocentes()));
+
 app.post("/docentes", (req, res) => {
-const { dni, nombre, correo, especialidad } = req.body;
-servicioDocentes.agregarDocente(new Docente(dni, nombre, correo, especialidad));
-res.json({ mensaje: "Docente creado" });
+    const { dni, nombre, correo, especialidad } = req.body;
+    servicioDocentes.agregarDocente(new Docente(dni, nombre, correo, especialidad));
+    res.json({ mensaje: "Docente creado" });
 });
 
-// CURSOS
+// ================= CURSOS =================
 app.post("/cursos", (req, res) => {
-const { id, nombre, creditos } = req.body;
-const docente = new Docente("000","Temporal","temp@temp.com","General");
-res.json({ mensaje: "Curso creado" });
+    const { id, nombre, creditos } = req.body;
+    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
+    res.json({ mensaje: "Curso creado" });
 });
 
-// HORARIOS
+// ================= HORARIOS =================
 app.get("/horarios", (req, res) => res.json(servicioHorarios.getHorarios()));
+
 app.post("/horarios", (req, res) => {
-const { id, dia, inicio, fin, aula } = req.body;
-const docente = new Docente("000","Temporal","temp@temp.com","General");
-const curso = new Curso(1,"Temporal",docente,3);
-servicioHorarios.agregarHorario(new Horario(id,dia,inicio,fin,aula,docente,curso));
-res.json({ mensaje: "Horario creado" });
+    const { id, dia, inicio, fin, aula } = req.body;
+
+    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
+    const curso = new Curso(1, "Temporal", docente, 3);
+
+    servicioHorarios.agregarHorario(
+        new Horario(id, dia, inicio, fin, aula, docente, curso)
+    );
+
+    res.json({ mensaje: "Horario creado" });
 });
 
-// EVALUACIONES
-app.get("/evaluaciones", (req, res) => res.json(servicioEvaluaciones.getEvaluaciones()));
-app.post("/evaluaciones", (req, res) => {
-const { titulo, fecha } = req.body;
-const docente = new Docente("000","Temporal","temp@temp.com","General");
-const curso = new Curso(1,"Temporal",docente,3);
-const horario = new Horario(1,"Lunes","08:00","10:00","A1",docente,curso);
-
-servicioEvaluaciones.agregarEvaluacion(
-new EvaluacionAcademica(
-Date.now(),
-titulo,
-TipoEvaluacion.EXAMEN,
-new Date(fecha),
-60,
-EstadoEvaluacion.PROGRAMADA,
-horario
-)
+// ================= EVALUACIONES =================
+app.get("/evaluaciones", (req, res) =>
+    res.json(servicioEvaluaciones.getEvaluaciones())
 );
 
-res.json({ mensaje: "Evaluación creada" });
+app.post("/evaluaciones", (req, res) => {
+    const { titulo, fecha } = req.body;
+
+    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
+    const curso = new Curso(1, "Temporal", docente, 3);
+    const horario = new Horario(
+        1,
+        "Lunes",
+        "08:00",
+        "10:00",
+        "A1",
+        docente,
+        curso
+    );
+
+    servicioEvaluaciones.agregarEvaluacion(
+        new EvaluacionAcademica(
+            Date.now(),
+            titulo,
+            TipoEvaluacion.EXAMEN,
+            new Date(fecha),
+            60,
+            EstadoEvaluacion.PROGRAMADA,
+            horario
+        )
+    );
+
+    res.json({ mensaje: "Evaluación creada" });
 });
 
-app.delete("/evaluaciones/:id", (req,res)=>{
-servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
-res.json({mensaje:"Eliminada"});
+app.delete("/evaluaciones/:id", (req, res) => {
+    servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
+    res.json({ mensaje: "Eliminada" });
 });
 
+// ================= PUERTO =================
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log("Puerto detectado:", process.env.PORT);
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
