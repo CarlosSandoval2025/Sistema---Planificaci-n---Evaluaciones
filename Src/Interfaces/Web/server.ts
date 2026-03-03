@@ -19,8 +19,14 @@ import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
 const app = express();
 app.use(express.json());
 
-// 🔥 CONFIGURACIÓN PARA SERVIR HTML
-app.use(express.static(path.join(__dirname, "public")));
+// 🔥 CONFIGURACIÓN PARA SERVIR HTML Y ARCHIVOS ESTÁTICOS
+const publicPath = path.join(__dirname, "public");
+app.use(express.static(publicPath));
+
+// Ruta principal: siempre devuelve index.html
+app.get("/", (req, res) => {
+    res.sendFile(path.join(publicPath, "index.html"));
+});
 
 // ================= SERVICIOS =================
 const servicioDocentes = new ServicioDocentes(new RepositorioDocentes());
@@ -96,11 +102,11 @@ app.post("/evaluaciones", (req, res) => {
 
 app.delete("/evaluaciones/:id", (req, res) => {
     servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
-    res.json({ mensaje: "Eliminada" });
+    res.json({ mensaje: "Evaluación eliminada" });
 });
 
 // ================= PUERTO =================
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+const PORT = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
