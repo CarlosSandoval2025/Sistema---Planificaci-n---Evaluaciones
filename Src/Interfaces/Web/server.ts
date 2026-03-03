@@ -80,8 +80,9 @@ servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
 res.json({mensaje:"Eliminada"});
 });
 
-const PORT = Number(process.env.PORT) || 4000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 app.listen(PORT, "0.0.0.0", () => {
+    console.log("Puerto detectado:", process.env.PORT);
     console.log(`Servidor corriendo en puerto ${PORT}`);
 });
