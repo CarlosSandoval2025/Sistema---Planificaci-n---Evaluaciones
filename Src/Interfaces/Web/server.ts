@@ -18,15 +18,14 @@ import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/", (req, res) => {
+    res.json({ mensaje: "API funcionando correctamente 🚀" });
+});
 
 const servicioDocentes = new ServicioDocentes(new RepositorioDocentes());
 const servicioHorarios = new ServicioHorarios(new RepositorioHorarios());
 const servicioEvaluaciones = new ServicioEvaluaciones(new RepositorioEvaluaciones());
-
-app.get("/", (req, res) => {
-res.sendFile(path.join(__dirname, "public", "index.html"));
-});
 
 // DOCENTES
 app.get("/docentes", (req, res) => res.json(servicioDocentes.getDocentes()));
