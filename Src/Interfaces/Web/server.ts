@@ -81,6 +81,8 @@ servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
 res.json({mensaje:"Eliminada"});
 });
 
-app.listen(4000, () => {
-console.log("Servidor corriendo en http://localhost:4000");
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en puerto ${PORT}`);
 });
