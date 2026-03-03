@@ -106,12 +106,8 @@ app.delete("/evaluaciones/:id", (req, res) => {
 });
 
 // ================= PUERTO =================
-const PORT = Number(process.env.PORT);
-
-if (!PORT) {
-    throw new Error("PORT no está definido en producción");
-}
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Servidor corriendo en puerto ${PORT}`);
+    console.log("Servidor corriendo en puerto " + PORT);
 });
