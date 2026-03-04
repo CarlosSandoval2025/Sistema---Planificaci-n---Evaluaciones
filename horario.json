@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "dia": "Lunes",
+    "horaInicio": 540,
+    "horaFin": 660,
+    "aula": "B1",
+    "docente": {
+      "dni": "60969722",
+      "nombre": "Carlos",
+      "correo": "carlos.j98232s.s@gmail.com",
+      "especialidad": "Programación Avanzada"
+    },
+    "curso": {
+      "id": "1",
+      "nombre": "Programación Avanzada",
+      "docente": {
+        "dni": "60969722",
+        "nombre": "Carlos",
+        "correo": "carlos.j98232s.s@gmail.com",
+        "especialidad": "Programación Avanzada"
+      },
+      "creditos": 4,
+      "evaluaciones": []
+    }
+  }
+]

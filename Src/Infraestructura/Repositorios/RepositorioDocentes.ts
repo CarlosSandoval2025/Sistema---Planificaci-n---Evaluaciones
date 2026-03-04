@@ -12,7 +12,10 @@ export class RepositorioDocentes {
     private cargar() {
         if (fs.existsSync(this.archivo)) {
             const data = JSON.parse(fs.readFileSync(this.archivo, "utf-8"));
-            this.docentes = data;
+
+            this.docentes = data.map((obj: any) =>
+                Docente.desdeJSON(obj)
+            );
         }
     }
 

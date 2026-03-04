@@ -1,0 +1,20 @@
+[
+  {
+    "dni": "60969722",
+    "nombre": "Carlos",
+    "correo": "carlos.j98232s.s@gmail.com",
+    "especialidad": "Programación Avanzada"
+  },
+  {
+    "dni": "60969721",
+    "nombre": "Juan",
+    "correo": "juan12@gmail.com",
+    "especialidad": "Programación Grafica"
+  },
+  {
+    "dni": "60969723",
+    "nombre": "Pedro",
+    "correo": "pedro.js@gmail.com",
+    "especialidad": "Mate I"
+  }
+]

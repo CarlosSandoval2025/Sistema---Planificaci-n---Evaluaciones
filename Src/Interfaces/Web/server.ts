@@ -1,11 +1,24 @@
 import express from "express";
 import path from "path";
+
+// ===== MODELOS =====
 import { Docente } from "../../Dominio/Modelos/Docente";
 import { Curso } from "../../Dominio/Modelos/Curso";
 import { Horario } from "../../Dominio/Modelos/Horario";
 import { EvaluacionAcademica } from "../../Dominio/Modelos/EvaluacionAcademica";
 import { TipoEvaluacion } from "../../Dominio/Enums/TipoEvaluacion";
 import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
+
+// ===== REPOSITORIOS =====
+import { RepositorioDocentes } from "../../Infraestructura/Repositorios/RepositorioDocentes";
+import { RepositorioCursos } from "../../Infraestructura/Repositorios/RepositorioCursos";
+import { RepositorioHorarios } from "../../Infraestructura/Repositorios/RepositorioHorarios";
+import { RepositorioEvaluaciones } from "../../Infraestructura/Repositorios/RepositorioEvaluaciones";
+
+// ===== SERVICIOS =====
+import { ServicioCursos } from "../../Aplicacion/Servicios/ServicioCursos";
+import { ServicioHorarios } from "../../Aplicacion/Servicios/ServicioHorarios";
+import { ServicioEvaluaciones } from "../../Aplicacion/Servicios/ServicioEvaluaciones";
 
 const app = express();
 app.use(express.json());
@@ -17,104 +30,113 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
 
-// ===== MEMORIA =====
-let docentes: Docente[] = [];
-let cursos: Curso[] = [];
-let horarios: Horario[] = [];
-let evaluaciones: EvaluacionAcademica[] = [];
+// ===== INSTANCIAS =====
+const repoDocentes = new RepositorioDocentes();
+const repoCursos = new RepositorioCursos();
+const repoHorarios = new RepositorioHorarios();
+const repoEvaluaciones = new RepositorioEvaluaciones();
 
-// ===== DOCENTES =====
+const servicioCursos = new ServicioCursos(repoCursos);
+const servicioHorarios = new ServicioHorarios(repoHorarios);
+const servicioEvaluaciones = new ServicioEvaluaciones(repoEvaluaciones);
+
+// ================= DOCENTES =================
 app.get("/docentes", (req, res) => {
-  res.json(docentes.map(d => ({
-    dni: d.getDni(),
-    nombre: d.getNombre(),
-    correo: d.getCorreo(),
-    especialidad: (d as any).especialidad ?? "Sin especialidad"
-  })));
+  res.json(repoDocentes.obtenerTodos());
 });
 
 app.post("/docentes", (req, res) => {
   const { dni, nombre, correo, especialidad } = req.body;
   const docente = new Docente(dni, nombre, correo, especialidad);
-  docentes.push(docente);
-  res.json({ mensaje: "Docente creado" });
+  repoDocentes.agregar(docente);
+  res.json({ mensaje: "Docente creado correctamente" });
 });
 
-// ===== CURSOS =====
+// ================= CURSOS =================
 app.get("/cursos", (req, res) => {
-  res.json(cursos.map(c => ({
-    id: c.getId(),
-    nombre: (c as any).nombre ?? "Sin nombre",
-    creditos: (c as any).creditos ?? 0,
-    docente: c.getDocente().getNombre()
-  })));
+  res.json(servicioCursos.getCursos());
 });
 
 app.post("/cursos", (req, res) => {
-  const { id, nombre, creditos, indiceDocente } = req.body;
-  const docente = docentes[indiceDocente];
-  if (!docente) return res.status(400).json({ error: "Docente inválido" });
+  try {
+    const { id, nombre, creditos, indiceDocente } = req.body;
 
-  const curso = new Curso(id, nombre, docente, creditos);
-  cursos.push(curso);
-  res.json({ mensaje: "Curso creado" });
+    const docente = repoDocentes.obtenerTodos()[indiceDocente];
+    if (!docente) {
+      return res.status(400).json({ error: "Docente inválido" });
+    }
+
+    const curso = new Curso(id, nombre, docente, creditos);
+    servicioCursos.agregarCurso(curso);
+
+    res.json({ mensaje: "Curso creado correctamente" });
+
+  } catch (error: any) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
-// ===== HORARIOS =====
-function minutosAHoraString(minutos: number): string {
-  const h = Math.floor(minutos / 60);
-  const m = minutos % 60;
-  return (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m);
-}
-
+// ================= HORARIOS =================
 app.get("/horarios", (req, res) => {
-  res.json(horarios.map(h => ({
+
+  const horarios = servicioHorarios.getHorarios().map(h => ({
     id: h.getId(),
     dia: h.getDia(),
-    inicio: minutosAHoraString(h.getHoraInicio()),
-    fin: minutosAHoraString(h.getHoraFin()),
+    inicio: h.getHoraInicioTexto(),
+    fin: h.getHoraFinTexto(),
     aula: h.getAula(),
-    curso: (h.getCurso() as any).nombre,
+    curso: h.getCurso().getNombre(),
     docente: h.getDocente().getNombre()
-  })));
+  }));
+
+  res.json(horarios);
 });
 
 app.post("/horarios", (req, res) => {
-  const { id, dia, inicio, fin, aula, indiceCurso } = req.body;
-  const curso = cursos[indiceCurso];
-  if (!curso) return res.status(400).json({ error: "Curso inválido" });
+  try {
 
-  const docente = curso.getDocente();
-  const horario = new Horario(id, dia, inicio, fin, aula, docente, curso);
-  horarios.push(horario);
+    console.log("BODY RECIBIDO:", req.body);
 
-  res.json({ mensaje: "Horario creado" });
+    const { id, dia, horaInicio, horaFin, aula, indiceCurso } = req.body;
+
+    const curso = repoCursos.obtenerTodos()[indiceCurso];
+    if (!curso) {
+      return res.status(400).json({ error: "Curso inválido" });
+    }
+
+    const docente = curso.getDocente();
+
+    const horario = new Horario(
+      id,
+      dia,
+      horaInicio,
+      horaFin,
+      aula,
+      docente,
+      curso
+    );
+
+    servicioHorarios.agregarHorario(horario);
+
+    console.log("✅ Horario guardado correctamente");
+
+    res.json({ mensaje: "Horario creado correctamente" });
+
+  } catch (error: any) {
+    console.error("ERROR:", error);
+    res.status(400).json({ error: error.message });
+  }
 });
 
-// ===== EVALUACIONES =====
+// ================= EVALUACIONES =================
 app.get("/evaluaciones", (req, res) => {
-  res.json(evaluaciones.map(e => ({
-    id: e.getId(),
-    titulo: e.getTitulo(),
-    fecha: e.getFecha(),
-    duracion: (e as any).duracionMin ?? 0,
-    estado: e.getEstado(),
-    horario: {
-      dia: e.getHorario().getDia(),
-      curso: (e.getHorario().getCurso() as any).nombre,
-      docente: e.getHorario().getDocente().getNombre()
-    }
-  })));
+  res.json(servicioEvaluaciones.getEvaluaciones());
 });
 
 app.post("/evaluaciones", (req, res) => {
   const { titulo, fecha, duracion, indiceHorario } = req.body;
 
-  if (horarios.length === 0) {
-    return res.status(400).json({ error: "No hay horarios registrados." });
-  }
-
-  const horario = horarios[indiceHorario];
+  const horario = servicioHorarios.getHorarios()[indiceHorario];
   if (!horario) return res.status(400).json({ error: "Horario inválido" });
 
   const evaluacion = new EvaluacionAcademica(
@@ -127,16 +149,20 @@ app.post("/evaluaciones", (req, res) => {
     horario
   );
 
-  evaluaciones.push(evaluacion);
-  res.json({ mensaje: "Evaluación creada" });
+  servicioEvaluaciones.agregarEvaluacion(evaluacion);
+  servicioEvaluaciones.verificarAlertas();
+  servicioEvaluaciones.verificarConflictos();
+
+  res.json({ mensaje: "Evaluación creada correctamente" });
 });
 
 app.delete("/evaluaciones/:id", (req, res) => {
   const id = Number(req.params.id);
-  evaluaciones = evaluaciones.filter(e => e.getId() !== id);
-  res.json({ mensaje: "Evaluación eliminada" });
+  servicioEvaluaciones.eliminarEvaluacion(id);
+  res.json({ mensaje: "Evaluación eliminada correctamente" });
 });
 
-// ===== PUERTO =====
 const PORT = 3000;
-app.listen(PORT, () => console.log("Servidor corriendo en puerto " + PORT));
+app.listen(PORT, () =>
+  console.log("Servidor corriendo en puerto " + PORT)
+);

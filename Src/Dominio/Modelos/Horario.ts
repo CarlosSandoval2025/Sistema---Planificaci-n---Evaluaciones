@@ -128,4 +128,12 @@ export class Horario{
     getCurso(): Curso{
         return this.curso;
     }
+
+    getHoraInicioTexto(): string {
+        return this.convertirMinutosAHoras(this.horaInicio);
+    }
+
+    getHoraFinTexto(): string {
+        return this.convertirMinutosAHoras(this.horaFin);
+    }
 }

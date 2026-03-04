@@ -9,6 +9,15 @@ export class Docente extends Persona implements IReportable {
         this.especialidad = especialidad;
     }
 
+    static desdeJSON(obj: any): Docente {
+    return new Docente(
+        obj.dni,
+        obj.nombre,
+        obj.correo,
+        obj.especialidad
+    );
+}
+
     actualizarNombre(nuevoNombre: string): void {
         this.nombre = nuevoNombre;
     }
@@ -25,6 +34,10 @@ export class Docente extends Persona implements IReportable {
         return "Docente: " + this.nombre + "\n" + 
         "Correo: " + this.correo + "\n" +
         "Especialidad: " + this.especialidad + "\n";
+    }
+
+    getEspecialidad(): string {
+        return this.especialidad;
     }
 
 }

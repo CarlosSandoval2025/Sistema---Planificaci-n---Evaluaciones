@@ -13,7 +13,10 @@ export class RepositorioCursos {
     private cargar() {
         if (fs.existsSync(this.archivo)) {
             const data = JSON.parse(fs.readFileSync(this.archivo, "utf-8"));
-            this.cursos = data;
+
+            this.cursos = data.map((obj: any) =>
+                Curso.desdeJSON(obj)
+            );
         }
     }
 

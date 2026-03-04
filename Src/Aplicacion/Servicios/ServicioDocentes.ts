@@ -1,15 +1,15 @@
-import { Docente } from "../../Dominio/Modelos/Docente";
-import { RepositorioDocentes } from "../../Infraestructura/Repositorios/RepositorioDocentes";
+import { Curso } from "../../Dominio/Modelos/Curso";
+import { RepositorioCursos } from "../../Infraestructura/Repositorios/RepositorioCursos";
 
-export class ServicioDocentes {
+export class ServicioCursos {
 
-    constructor(private repositorio: RepositorioDocentes) {}
+    constructor(private repositorio: RepositorioCursos) {}
 
-    agregarDocente(docente: Docente) {
-        this.repositorio.agregar(docente);
+    agregarCurso(curso: Curso) {
+        this.repositorio.agregar(curso);
     }
 
-    getDocentes(): Docente[] {
+    getCursos(): Curso[] {
         return this.repositorio.obtenerTodos();
     }
 }

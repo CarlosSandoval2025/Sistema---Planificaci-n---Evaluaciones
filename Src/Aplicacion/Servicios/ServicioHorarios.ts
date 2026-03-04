@@ -9,23 +9,21 @@ export class ServicioHorarios {
 
     agregarHorario(horario: Horario): void {
 
-        if (this.verificarConflictoAula(horario)) {
-            console.log("Conflicto detectado en aula.");
-            return;
-        }
-
-        if (this.verificarConflictoDocente(horario)) {
-            console.log("Conflicto detectado: el docente ya tiene clase en ese horario.");
-            return;
-        }
-
-        if (this.verificarConflictoCurso(horario)) {
-            return;
-        }
-
-        this.repositorio.agregar(horario);
-        console.log("Horario registrado correctamente.");
+    if (this.verificarConflictoAula(horario)) {
+        throw new Error("Conflicto: el aula ya está ocupada en ese horario.");
     }
+
+    if (this.verificarConflictoDocente(horario)) {
+        throw new Error("Conflicto: el docente ya tiene clase en ese horario.");
+    }
+
+    if (this.verificarConflictoCurso(horario)) {
+        throw new Error("Conflicto: el curso ya tiene clase en ese horario.");
+    }
+
+    this.repositorio.agregar(horario);
+    console.log("Horario registrado correctamente.");
+}
 
     listarHorarios(): void {
 
