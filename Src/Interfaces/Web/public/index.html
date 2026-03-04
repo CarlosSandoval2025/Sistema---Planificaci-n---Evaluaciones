@@ -4,111 +4,218 @@
 <meta charset="UTF-8">
 <title>Sistema Académico</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial;
-    background: #f4f6f9;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url("https://images.unsplash.com/photo-1503676260728-1c00da094a0b");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
     padding: 40px;
 }
 
+h1 {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.menu {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 button {
-    padding: 8px 15px;
-    margin: 5px;
-    background: #3498db;
+    padding: 10px 18px;
+    margin: 6px;
+    background: #4f46e5;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #3730a3;
+    transform: translateY(-2px);
 }
 
 .seccion {
     display: none;
     margin-top: 20px;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
+    background: rgba(255,255,255,0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+h2 {
+    margin-top: 0;
+    font-weight: 600;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: 'Poppins', sans-serif;
+}
+
+form button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.lista {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
 </style>
 
 </head>
 <body>
 
-<h1>====== SISTEMA ACADÉMICO ======</h1>
+<h1>SISTEMA ACADÉMICO</h1>
 
-<button onclick="mostrarSeccion('docente')">1. Crear Docente</button>
-<button onclick="mostrarSeccion('curso')">2. Crear Curso</button>
-<button onclick="mostrarSeccion('horario')">3. Crear Horario</button>
-<button onclick="mostrarSeccion('evaluacion')">4. Crear Evaluación</button>
-<button onclick="mostrarSeccion('verEvaluaciones')">5. Ver Evaluaciones</button>
-<button onclick="mostrarSeccion('verHorarios')">6. Ver Horarios</button>
-<button onclick="mostrarSeccion('eliminar')">8. Eliminar</button>
+<div class="menu">
+<button class="btn-menu" data-seccion="docente">Crear Docente</button>
+<button class="btn-menu" data-seccion="curso">Crear Curso</button>
+<button class="btn-menu" data-seccion="horario">Crear Horario</button>
+<button class="btn-menu" data-seccion="evaluacion">Crear Evaluación</button>
+<button class="btn-menu" data-seccion="verEvaluaciones">Ver Evaluaciones</button>
+<button class="btn-menu" data-seccion="verHorarios">Ver Horarios</button>
+<button class="btn-menu" data-seccion="eliminar">Eliminar</button>
+</div>
 
 <!-- DOCENTE -->
 <div id="docente" class="seccion">
 <h2>Crear Docente</h2>
 <form id="formDocente">
-DNI: <input type="text" id="dni" required><br><br>
-Nombre: <input type="text" id="nombre" required><br><br>
-Correo: <input type="email" id="correo" required><br><br>
-Especialidad: <input type="text" id="especialidad" required><br><br>
+<label>DNI</label>
+<input type="text" id="dni" required>
+
+<label>Nombre</label>
+<input type="text" id="nombre" required>
+
+<label>Correo</label>
+<input type="email" id="correo" required>
+
+<label>Especialidad</label>
+<input type="text" id="especialidad" required>
+
 <button type="submit">Registrar</button>
 </form>
+<div id="listaDocentes" class="lista"></div>
 </div>
 
 <!-- CURSO -->
 <div id="curso" class="seccion">
 <h2>Crear Curso</h2>
 <form id="formCurso">
-ID: <input type="number" id="idCurso" required><br><br>
-Nombre: <input type="text" id="nombreCurso" required><br><br>
-Créditos: <input type="number" id="creditos" required><br><br>
+<label>ID</label>
+<input type="number" id="idCurso" required>
+
+<label>Nombre</label>
+<input type="text" id="nombreCurso" required>
+
+<label>Créditos</label>
+<input type="number" id="creditos" required>
+
+<label>Seleccionar Docente</label>
+<select id="selectDocente"></select>
+
 <button type="submit">Registrar</button>
 </form>
+<div id="listaCursos" class="lista"></div>
 </div>
 
 <!-- HORARIO -->
 <div id="horario" class="seccion">
 <h2>Crear Horario</h2>
 <form id="formHorario">
-ID: <input type="number" id="idHorario" required><br><br>
-Día: <input type="text" id="dia" required><br><br>
-Inicio: <input type="text" id="inicio" required><br><br>
-Fin: <input type="text" id="fin" required><br><br>
-Aula: <input type="text" id="aula" required><br><br>
+<label>ID</label>
+<input type="number" id="idHorario" required>
+
+<label>Día</label>
+<input type="text" id="dia" required>
+
+<label>Inicio</label>
+<input type="text" id="inicio" required>
+
+<label>Fin</label>
+<input type="text" id="fin" required>
+
+<label>Aula</label>
+<input type="text" id="aula" required>
+
+<label>Seleccionar Curso</label>
+<select id="selectCurso"></select>
+
 <button type="submit">Registrar</button>
 </form>
+
+<h3>Seleccionar Horario (para Evaluación)</h3>
+<select id="selectHorario"></select>
+
+<div id="listaHorariosForm" class="lista"></div>
 </div>
 
 <!-- EVALUACION -->
 <div id="evaluacion" class="seccion">
 <h2>Crear Evaluación</h2>
 <form id="formEvaluacion">
-Título: <input type="text" id="titulo" required><br><br>
-Fecha: <input type="date" id="fecha" required><br><br>
+<label>Título</label>
+<input type="text" id="titulo" required>
+
+<label>Fecha</label>
+<input type="date" id="fecha" required>
+
 <button type="submit">Registrar</button>
 </form>
+<div id="listaEvaluacionesForm" class="lista"></div>
 </div>
 
 <!-- VER EVALUACIONES -->
 <div id="verEvaluaciones" class="seccion">
 <h2>Lista Evaluaciones</h2>
-<div id="listaEvaluaciones"></div>
+<div id="listaEvaluacionesVer" class="lista"></div>
 </div>
 
 <!-- VER HORARIOS -->
 <div id="verHorarios" class="seccion">
 <h2>Lista Horarios</h2>
-<div id="listaHorarios"></div>
+<div id="listaHorariosVista" class="lista"></div>
 </div>
 
 <!-- ELIMINAR -->
 <div id="eliminar" class="seccion">
 <h2>Eliminar Evaluación</h2>
-ID: <input type="number" id="idEliminar">
+<label>ID</label>
+<input type="number" id="idEliminar">
 <button onclick="eliminarEvaluacion()">Eliminar</button>
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>

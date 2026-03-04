@@ -53,7 +53,7 @@ export class ServicioEvaluaciones {
     }
 
     verificarAlertas(): void {
-
+        //obtiene todas las evaluaciones que ya existen en el repositorio
         this.repositorio.obtenerTodos().forEach(e => {
 
             const resultado = e.verificarAlerta();

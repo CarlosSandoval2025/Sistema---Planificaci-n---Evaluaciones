@@ -21,7 +21,6 @@ export class Docente extends Persona implements IReportable {
         this.especialidad = nuevaEspecialidad;
     }
 
-
     getResumen(): string{
         return "Docente: " + this.nombre + "\n" + 
         "Correo: " + this.correo + "\n" +

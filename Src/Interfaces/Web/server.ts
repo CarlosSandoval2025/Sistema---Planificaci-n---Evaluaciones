@@ -1,14 +1,5 @@
 import express from "express";
 import path from "path";
-
-import { RepositorioDocentes } from "../../Infraestructura/Repositorios/RepositorioDocentes";
-import { RepositorioHorarios } from "../../Infraestructura/Repositorios/RepositorioHorarios";
-import { RepositorioEvaluaciones } from "../../Infraestructura/Repositorios/RepositorioEvaluaciones";
-
-import { ServicioDocentes } from "../../Aplicacion/Servicios/ServicioDocentes";
-import { ServicioHorarios } from "../../Aplicacion/Servicios/ServicioHorarios";
-import { ServicioEvaluaciones } from "../../Aplicacion/Servicios/ServicioEvaluaciones";
-
 import { Docente } from "../../Dominio/Modelos/Docente";
 import { Curso } from "../../Dominio/Modelos/Curso";
 import { Horario } from "../../Dominio/Modelos/Horario";
@@ -19,95 +10,133 @@ import { EstadoEvaluacion } from "../../Dominio/Enums/EstadoEvaluacion";
 const app = express();
 app.use(express.json());
 
-// 🔥 CONFIGURACIÓN PARA SERVIR HTML Y ARCHIVOS ESTÁTICOS
 const publicPath = path.join(__dirname, "public");
 app.use(express.static(publicPath));
 
-// Ruta principal: siempre devuelve index.html
 app.get("/", (req, res) => {
-    res.sendFile(path.join(publicPath, "index.html"));
+  res.sendFile(path.join(publicPath, "index.html"));
 });
 
-// ================= SERVICIOS =================
-const servicioDocentes = new ServicioDocentes(new RepositorioDocentes());
-const servicioHorarios = new ServicioHorarios(new RepositorioHorarios());
-const servicioEvaluaciones = new ServicioEvaluaciones(new RepositorioEvaluaciones());
+// ===== MEMORIA =====
+let docentes: Docente[] = [];
+let cursos: Curso[] = [];
+let horarios: Horario[] = [];
+let evaluaciones: EvaluacionAcademica[] = [];
 
-// ================= DOCENTES =================
-app.get("/docentes", (req, res) => res.json(servicioDocentes.getDocentes()));
+// ===== DOCENTES =====
+app.get("/docentes", (req, res) => {
+  res.json(docentes.map(d => ({
+    dni: d.getDni(),
+    nombre: d.getNombre(),
+    correo: d.getCorreo(),
+    especialidad: (d as any).especialidad ?? "Sin especialidad"
+  })));
+});
 
 app.post("/docentes", (req, res) => {
-    const { dni, nombre, correo, especialidad } = req.body;
-    servicioDocentes.agregarDocente(new Docente(dni, nombre, correo, especialidad));
-    res.json({ mensaje: "Docente creado" });
+  const { dni, nombre, correo, especialidad } = req.body;
+  const docente = new Docente(dni, nombre, correo, especialidad);
+  docentes.push(docente);
+  res.json({ mensaje: "Docente creado" });
 });
 
-// ================= CURSOS =================
+// ===== CURSOS =====
+app.get("/cursos", (req, res) => {
+  res.json(cursos.map(c => ({
+    id: c.getId(),
+    nombre: (c as any).nombre ?? "Sin nombre",
+    creditos: (c as any).creditos ?? 0,
+    docente: c.getDocente().getNombre()
+  })));
+});
+
 app.post("/cursos", (req, res) => {
-    const { id, nombre, creditos } = req.body;
-    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
-    res.json({ mensaje: "Curso creado" });
+  const { id, nombre, creditos, indiceDocente } = req.body;
+  const docente = docentes[indiceDocente];
+  if (!docente) return res.status(400).json({ error: "Docente inválido" });
+
+  const curso = new Curso(id, nombre, docente, creditos);
+  cursos.push(curso);
+  res.json({ mensaje: "Curso creado" });
 });
 
-// ================= HORARIOS =================
-app.get("/horarios", (req, res) => res.json(servicioHorarios.getHorarios()));
+// ===== HORARIOS =====
+function minutosAHoraString(minutos: number): string {
+  const h = Math.floor(minutos / 60);
+  const m = minutos % 60;
+  return (h < 10 ? "0" + h : h) + ":" + (m < 10 ? "0" + m : m);
+}
+
+app.get("/horarios", (req, res) => {
+  res.json(horarios.map(h => ({
+    id: h.getId(),
+    dia: h.getDia(),
+    inicio: minutosAHoraString(h.getHoraInicio()),
+    fin: minutosAHoraString(h.getHoraFin()),
+    aula: h.getAula(),
+    curso: (h.getCurso() as any).nombre,
+    docente: h.getDocente().getNombre()
+  })));
+});
 
 app.post("/horarios", (req, res) => {
-    const { id, dia, inicio, fin, aula } = req.body;
+  const { id, dia, inicio, fin, aula, indiceCurso } = req.body;
+  const curso = cursos[indiceCurso];
+  if (!curso) return res.status(400).json({ error: "Curso inválido" });
 
-    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
-    const curso = new Curso(1, "Temporal", docente, 3);
+  const docente = curso.getDocente();
+  const horario = new Horario(id, dia, inicio, fin, aula, docente, curso);
+  horarios.push(horario);
 
-    servicioHorarios.agregarHorario(
-        new Horario(id, dia, inicio, fin, aula, docente, curso)
-    );
-
-    res.json({ mensaje: "Horario creado" });
+  res.json({ mensaje: "Horario creado" });
 });
 
-// ================= EVALUACIONES =================
-app.get("/evaluaciones", (req, res) =>
-    res.json(servicioEvaluaciones.getEvaluaciones())
-);
+// ===== EVALUACIONES =====
+app.get("/evaluaciones", (req, res) => {
+  res.json(evaluaciones.map(e => ({
+    id: e.getId(),
+    titulo: e.getTitulo(),
+    fecha: e.getFecha(),
+    duracion: (e as any).duracionMin ?? 0,
+    estado: e.getEstado(),
+    horario: {
+      dia: e.getHorario().getDia(),
+      curso: (e.getHorario().getCurso() as any).nombre,
+      docente: e.getHorario().getDocente().getNombre()
+    }
+  })));
+});
 
 app.post("/evaluaciones", (req, res) => {
-    const { titulo, fecha } = req.body;
+  const { titulo, fecha, duracion, indiceHorario } = req.body;
 
-    const docente = new Docente("000", "Temporal", "temp@temp.com", "General");
-    const curso = new Curso(1, "Temporal", docente, 3);
-    const horario = new Horario(
-        1,
-        "Lunes",
-        "08:00",
-        "10:00",
-        "A1",
-        docente,
-        curso
-    );
+  if (horarios.length === 0) {
+    return res.status(400).json({ error: "No hay horarios registrados." });
+  }
 
-    servicioEvaluaciones.agregarEvaluacion(
-        new EvaluacionAcademica(
-            Date.now(),
-            titulo,
-            TipoEvaluacion.EXAMEN,
-            new Date(fecha),
-            60,
-            EstadoEvaluacion.PROGRAMADA,
-            horario
-        )
-    );
+  const horario = horarios[indiceHorario];
+  if (!horario) return res.status(400).json({ error: "Horario inválido" });
 
-    res.json({ mensaje: "Evaluación creada" });
+  const evaluacion = new EvaluacionAcademica(
+    Date.now(),
+    titulo,
+    TipoEvaluacion.EXAMEN,
+    new Date(fecha),
+    duracion ?? 60,
+    EstadoEvaluacion.PROGRAMADA,
+    horario
+  );
+
+  evaluaciones.push(evaluacion);
+  res.json({ mensaje: "Evaluación creada" });
 });
 
 app.delete("/evaluaciones/:id", (req, res) => {
-    servicioEvaluaciones.eliminarEvaluacion(Number(req.params.id));
-    res.json({ mensaje: "Evaluación eliminada" });
+  const id = Number(req.params.id);
+  evaluaciones = evaluaciones.filter(e => e.getId() !== id);
+  res.json({ mensaje: "Evaluación eliminada" });
 });
 
-// ================= PUERTO =================
-const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
-
-app.listen(PORT, "0.0.0.0", () => {
-    console.log("Servidor corriendo en puerto " + PORT);
-});
+// ===== PUERTO =====
+const PORT = 3000;
+app.listen(PORT, () => console.log("Servidor corriendo en puerto " + PORT));
