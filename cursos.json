@@ -34,5 +34,41 @@
     },
     "creditos": 4,
     "evaluaciones": []
+  },
+  {
+    "id": "4",
+    "nombre": "Mate Discreta I",
+    "docente": {
+      "dni": "60969725",
+      "nombre": "Juan",
+      "correo": "juan09@gmail.com",
+      "especialidad": "Mate Discreta I"
+    },
+    "creditos": 3,
+    "evaluaciones": []
+  },
+  {
+    "id": "5",
+    "nombre": "Metodologia",
+    "docente": {
+      "dni": "60969700",
+      "nombre": "Felix",
+      "correo": "felix.98@gmail.com",
+      "especialidad": "Metodologia"
+    },
+    "creditos": 2,
+    "evaluaciones": []
+  },
+  {
+    "id": "6",
+    "nombre": "Quimica",
+    "docente": {
+      "dni": "60969712",
+      "nombre": "Franco",
+      "correo": "franco@gmail.com",
+      "especialidad": "Quimica"
+    },
+    "creditos": 2,
+    "evaluaciones": []
   }
 ]

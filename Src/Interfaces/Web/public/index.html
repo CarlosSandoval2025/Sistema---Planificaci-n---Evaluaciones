@@ -105,7 +105,6 @@ form button {
 <button class="btn-menu" data-seccion="evaluacion">Crear Evaluación</button>
 <button class="btn-menu" data-seccion="verEvaluaciones">Ver Evaluaciones</button>
 <button class="btn-menu" data-seccion="verHorarios">Ver Horarios</button>
-<button class="btn-menu" data-seccion="eliminar">Eliminar</button>
 </div>
 
 <!-- DOCENTE -->
@@ -184,15 +183,25 @@ form button {
 <!-- EVALUACION -->
 <div id="evaluacion" class="seccion">
 <h2>Crear Evaluación</h2>
+
 <form id="formEvaluacion">
+
 <label>Título</label>
 <input type="text" id="titulo" required>
 
 <label>Fecha</label>
 <input type="date" id="fecha" required>
 
+<label>Curso</label>
+<select id="selectCursoEvaluacion"></select>
+
+<label>Horario</label>
+<select id="selectHorarioEvaluacion"></select>
+
 <button type="submit">Registrar</button>
+
 </form>
+
 <div id="listaEvaluacionesForm" class="lista"></div>
 </div>
 
@@ -206,14 +215,6 @@ form button {
 <div id="verHorarios" class="seccion">
 <h2>Lista Horarios</h2>
 <div id="listaHorariosVista" class="lista"></div>
-</div>
-
-<!-- ELIMINAR -->
-<div id="eliminar" class="seccion">
-<h2>Eliminar Evaluación</h2>
-<label>ID</label>
-<input type="number" id="idEliminar">
-<button onclick="eliminarEvaluacion()">Eliminar</button>
 </div>
 
 <script src="app.js"></script>

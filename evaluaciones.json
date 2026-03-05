@@ -1,16 +1,84 @@
 [
   {
-    "id": 1772655161332,
+    "id": 1772751750012,
     "titulo": "Examen",
     "tipo": "Examen",
-    "fecha": "2026-09-05T00:00:00.000Z",
+    "fecha": "2026-03-05T00:00:00.000Z",
+    "duracionMin": 60,
+    "estado": "Programada",
+    "horario": {
+      "id": "2",
+      "dia": "Lunes",
+      "horaInicio": 540,
+      "horaFin": 660,
+      "aula": "B2",
+      "docente": {
+        "dni": "60969700",
+        "nombre": "Felix",
+        "correo": "felix.98@gmail.com",
+        "especialidad": "Metodologia"
+      },
+      "curso": {
+        "id": "5",
+        "nombre": "Metodologia",
+        "docente": {
+          "dni": "60969700",
+          "nombre": "Felix",
+          "correo": "felix.98@gmail.com",
+          "especialidad": "Metodologia"
+        },
+        "creditos": 2,
+        "evaluaciones": []
+      }
+    },
+    "historialCambios": []
+  },
+  {
+    "id": 1772751855397,
+    "titulo": "Practica",
+    "tipo": "Examen",
+    "fecha": "2026-03-06T00:00:00.000Z",
+    "duracionMin": 60,
+    "estado": "Programada",
+    "horario": {
+      "id": "2",
+      "dia": "Lunes",
+      "horaInicio": 420,
+      "horaFin": 540,
+      "aula": "B2",
+      "docente": {
+        "dni": "60969725",
+        "nombre": "Juan",
+        "correo": "juan09@gmail.com",
+        "especialidad": "Mate Discreta I"
+      },
+      "curso": {
+        "id": "4",
+        "nombre": "Mate Discreta I",
+        "docente": {
+          "dni": "60969725",
+          "nombre": "Juan",
+          "correo": "juan09@gmail.com",
+          "especialidad": "Mate Discreta I"
+        },
+        "creditos": 3,
+        "evaluaciones": []
+      }
+    },
+    "historialCambios": []
+  },
+  {
+    "id": 1772751897954,
+    "titulo": "Examen",
+    "tipo": "Examen",
+    "fecha": "2026-04-08T00:00:00.000Z",
     "duracionMin": 60,
     "estado": "Programada",
     "horario": {
       "id": "1",
       "dia": "Lunes",
-      "horaInicio": 540,
-      "horaFin": 660,
+      "horaInicio": 420,
+      "horaFin": 540,
       "aula": "B1",
       "docente": {
         "dni": "60969722",
@@ -26,6 +94,40 @@
           "nombre": "Carlos",
           "correo": "carlos.j98232s.s@gmail.com",
           "especialidad": "Programación Avanzada"
+        },
+        "creditos": 4,
+        "evaluaciones": []
+      }
+    },
+    "historialCambios": []
+  },
+  {
+    "id": 1772754395218,
+    "titulo": "Examen",
+    "tipo": "Examen",
+    "fecha": "2026-05-04T00:00:00.000Z",
+    "duracionMin": 60,
+    "estado": "Programada",
+    "horario": {
+      "id": "1",
+      "dia": "Lunes",
+      "horaInicio": 660,
+      "horaFin": 780,
+      "aula": "B1",
+      "docente": {
+        "dni": "60969723",
+        "nombre": "Pedro",
+        "correo": "pedro.js@gmail.com",
+        "especialidad": "Mate I"
+      },
+      "curso": {
+        "id": "3",
+        "nombre": "Mate I",
+        "docente": {
+          "dni": "60969723",
+          "nombre": "Pedro",
+          "correo": "pedro.js@gmail.com",
+          "especialidad": "Mate I"
         },
         "creditos": 4,
         "evaluaciones": []

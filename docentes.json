@@ -16,5 +16,29 @@
     "nombre": "Pedro",
     "correo": "pedro.js@gmail.com",
     "especialidad": "Mate I"
+  },
+  {
+    "dni": "60969725",
+    "nombre": "Juan",
+    "correo": "juan09@gmail.com",
+    "especialidad": "Mate Discreta I"
+  },
+  {
+    "dni": "60969700",
+    "nombre": "Felix",
+    "correo": "felix.98@gmail.com",
+    "especialidad": "Metodologia"
+  },
+  {
+    "dni": "60969712",
+    "nombre": "Franco",
+    "correo": "franco@gmail.com",
+    "especialidad": "Quimica"
+  },
+  {
+    "dni": "60969799",
+    "nombre": "Josue",
+    "correo": "josue@gmail.com",
+    "especialidad": "Programacion Avanzada"
   }
 ]

@@ -79,14 +79,15 @@ app.post("/cursos", (req, res) => {
 // ================= HORARIOS =================
 app.get("/horarios", (req, res) => {
 
-  const horarios = servicioHorarios.getHorarios().map(h => ({
+  const horarios = servicioHorarios.getHorarios().map((h, i) => ({
     id: h.getId(),
     dia: h.getDia(),
     inicio: h.getHoraInicioTexto(),
     fin: h.getHoraFinTexto(),
     aula: h.getAula(),
     curso: h.getCurso().getNombre(),
-    docente: h.getDocente().getNombre()
+    docente: h.getDocente().getNombre(),
+    indiceCurso: repoCursos.obtenerTodos().indexOf(h.getCurso()) // 🔥 AGREGAR ESTO
   }));
 
   res.json(horarios);
@@ -130,7 +131,27 @@ app.post("/horarios", (req, res) => {
 
 // ================= EVALUACIONES =================
 app.get("/evaluaciones", (req, res) => {
-  res.json(servicioEvaluaciones.getEvaluaciones());
+
+  const evaluaciones = servicioEvaluaciones.getEvaluaciones().map(ev => ({
+
+    id: ev.getId(),
+    titulo: ev.getTitulo(),
+    fecha: ev.getFecha(),
+
+    horario: {
+      id: ev.getHorario().getId(),
+      dia: ev.getHorario().getDia(),
+      horaInicio: ev.getHorario().getHoraInicioTexto(),
+      horaFin: ev.getHorario().getHoraFinTexto(),
+
+      curso: {
+        nombre: ev.getHorario().getCurso().getNombre()
+      }
+    }
+
+  }));
+
+  res.json(evaluaciones);
 });
 
 app.post("/evaluaciones", (req, res) => {

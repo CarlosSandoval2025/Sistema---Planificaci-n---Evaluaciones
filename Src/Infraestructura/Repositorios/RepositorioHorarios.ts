@@ -9,7 +9,7 @@ export class RepositorioHorarios extends RepositorioGenerico<Horario> {
 
     constructor() {
         super();
-        this.archivo = path.join(__dirname, "horario.json");
+        this.archivo = path.join(process.cwd(), "horario.json");
         this.cargarDesdeArchivo();
     }
 
